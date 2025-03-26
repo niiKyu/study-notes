@@ -250,7 +250,7 @@ management.endpoint.health.show-details=always
 management.endpoints.web.exposure.include=*
 ```
 
-②访问http://localhost:8080/acruator
+②访问`http://localhost:8080/acruator`
 
 ##### admin图形化界面使用
 
@@ -264,7 +264,7 @@ management.endpoints.web.exposure.include=*
 
 ![img](..\img\1713932997744-b6c2bcd0-6199-40e6-ba8f-8faf6081023c.webp)
 
-③在引导类上启用监控功能[@EnableAdminServer]()
+③在引导类上启用监控功能@EnableAdminServer
 
 ```java
 @EnableAdminServer

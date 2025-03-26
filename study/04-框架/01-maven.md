@@ -99,7 +99,7 @@
 
 packaging改成pom就是聚合工程，在此project下可建子maven工程
 
-![](.\img\maven2.png)
+![](..\img\maven2.png)
 
 可以被继承的POM元素如下
 

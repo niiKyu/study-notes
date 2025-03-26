@@ -143,7 +143,7 @@ Wrapper：每个都封装着一个Servlet（当然只局限于普通的Http请�
 
 ### 2、Tomcat运行流程
 
-客户发送一个请求：http://localhost:8080/test/index.html。请求被发送到本机端口8080后，执行流程如下：
+客户发送一个请求：`http://localhost:8080/test/index.html`。请求被发送到本机端口8080后，执行流程如下：
 
 1. 被在那里侦听的Coyote HTTP/1.1 Connector获得,然后引擎负责处理请求，不需要考虑请求链接，协议等。
 2. Connector把该请求交给它所在的Service的Engine来处理，并等待Engine的回应。

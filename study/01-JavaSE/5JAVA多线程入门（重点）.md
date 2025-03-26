@@ -1197,7 +1197,7 @@ public class CountDownLatchTest {
 
  CyclicBarrier 和 CountDownLatch 非常类似，它也可以实现线程间的技术等待，CyclicBarrier 的字面意思是可循环使用（Cyclic）的屏障（Barrier）。它要做的事情是，让一组线程到达一个屏障（也可以叫同步点）时被阻塞，直到最后一个线程到达屏障时，屏障才会开门，所有被屏障拦截的线程才会继续干活。
 
-![img](..\img\20181218144511688)
+![img](..\img\20181218144511688.gif)
 
 看 如下示意图，CyclicBarrier 和 CountDownLatch 是不是很像，只是 CyclicBarrier 可以有不止一个栅栏，因为它的栅栏（Barrier）可以重复使用（Cyclic）。
 
