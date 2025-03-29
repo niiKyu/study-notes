@@ -1,6 +1,6 @@
-## SpringMVC
+# SpringMVC
 
-### 执行流程
+## 执行流程
 
 ![image-20211226000022362](..\img\image-20211226000022362-184919d4.png)
 
@@ -70,17 +70,17 @@ protected void doDispatch(HttpServletRequest request, HttpServletResponse respon
 5. 将结果给视图解析器进行处理
 6. 处理完成后调用afterCompletion
 
-### 三个上下文
+## 三个上下文
 
 在我们的web项目中存在至少三个上下文，分别是【servlet上下文】，【spring上下文】以及【springmvc上下文】，具体如下：
 
 ![image-20211227124918177](..\img\image-20211227124918177-f303da98.png)
 
-#### （1）ServletContext
+### （1）ServletContext
 
 - 对于一个web应用，其部署在web容器中，web容器提供其一个全局的上下文环境，这个上下文就是我们的ServletContext，其为后面的spring IoC容器提供一个宿主环境。
 
-#### （2）spring上下文
+### （2）spring上下文
 
 - 在web.xml的配置中，我们需要提供一个监听器【ContextLoaderListener】。在web容器启动时，会触发【容器初始化】事件，此时contextLoaderListener会监听到这个事件，其contextInitialized方法会被调用。
 - 在这个方法中，spring会初始化一个【上下文】，这个上下文被称为【根上下文】，即【WebApplicationContext】，这是一个接口类，其实际的实现类是XmlWebApplicationContext。这个就是spring的IoC容器，其对应的Bean定义的配置由web.xml中的【context-param】配置指定，默认配置文件为【/WEB-INF/applicationContext.xml】。
@@ -98,7 +98,7 @@ protected void doDispatch(HttpServletRequest request, HttpServletResponse respon
 </context-param>
 ```
 
-#### （3）springmvc上下文
+### （3）springmvc上下文
 
 - contextLoaderListener监听器初始化完毕后，开始初始化web.xml中配置的Servlet，这个servlet可以配置多个，通常只配置一个，以最常见的DispatcherServlet为例，这个servlet实际上是一个【标准的前端控制器】，用以转发、匹配、处理每个servlet请求。
 - DispatcherServlet在初始化的时候会建立自己的IoC上下文，用以持有【spring mvc相关的bean】。在建立DispatcherServlet自己的IoC上下文时，会利用【WebApplicationContext.ROOTWEBAPPLICATIONCONTEXTATTRIBUTE】先从ServletContext中获取之前的【根上下文】作为自己上下文的【parent上下文】。有了这个parent上下文之后，再初始化自己持有的上下文，这个上下文本质上也是XmlWebApplicationContext，默认读取的配置文件是【/WEB-INF/springmvc-servlet.xml】，当然我们也可以使用init-param标签的【contextConfigLocation属性】进行配置。
@@ -110,7 +110,7 @@ protected void doDispatch(HttpServletRequest request, HttpServletResponse respon
 
 ![image-20220104174425480](..\img\image-20220104174425480-e736a148.png)
 
-### 核心技术篇
+## 核心技术篇
 
 ```java
 @RequestMapping("/test1")
@@ -120,7 +120,7 @@ public String testAnnotation(Model model){
 }
 ```
 
-#### 重定向和转发
+### 重定向和转发
 
 > 返回视图字符串加前缀redirect就可以进行重定向：
 
@@ -131,7 +131,7 @@ redirect:https://www.baidu.com
 forward:/a/b
 ```
 
-#### RequestMapping和衍生注解
+### RequestMapping和衍生注解
 
 > RequestMapping注解有六个属性，如下
 
@@ -166,7 +166,7 @@ public String add(Model model){
 }
 ```
 
-### URI 模式匹配
+## URI 模式匹配
 
 > 以下是一些模式匹配的示例：
 
@@ -199,9 +199,9 @@ public Pet findPet(@PathVariable Long ownerId, @PathVariable Long petId) {
 
 7、{}越少优先级越高
 
-### 传参
+## 传参
 
-#### （1）`@RequestParam`
+### （1）`@RequestParam`
 
 您可以使用`@RequestParam`注解将【请求参数】（即查询参数或表单数据）绑定到控制器中的方法参数。
 
@@ -212,7 +212,7 @@ public String setupForm(@RequestParam("petId") int petId, Model model){
 }
 ```
 
-#### （2）`@RequestHeader`
+### （2）`@RequestHeader`
 
 您可以使用`@RequestHeader`注解将请求的首部信息绑定到控制器中的方法参数中：
 
@@ -240,7 +240,7 @@ public void handle(
 
 小知识：当`@RequestHeader`注解上的使用`Map<String, String>`， `MultiValueMap<String, String>`或`HttpHeaders`参数，则map会被填充有所有header的值。当然，我们依然可以使用requied的属性来执行该参数不是必须的。
 
-#### （3）`@CookieValue`
+### （3）`@CookieValue`
 
 我们可以使用`@CookieValue`注解将请求中的 cookie 的值绑定到控制器中的方法参数。
 
@@ -259,7 +259,7 @@ public void handle(@CookieValue("JSESSIONID") String cookie) {
 }
 ```
 
-#### （4）`@ModelAttribute`
+### （4）`@ModelAttribute`
 
 您可以使用`@ModelAttribute`注解在方法参数上来访问【模型中的属性】，或者在不存在的情况下对其进行实例化。
 
@@ -270,7 +270,7 @@ public String register(@ModelAttribute("user") UserForm user) {
 }
 ```
 
-#### （5）`@SessionAttribute`
+### （5）`@SessionAttribute`
 
 如果您需要访问全局管理的预先存在的会话属性，并且可能存在或可能不存在，您可以`@SessionAttribute`在方法参数上使用注解，如下所示示例显示：
 
@@ -281,7 +281,7 @@ public String handle(@SessionAttribute User user) {
 }
 ```
 
-#### （6）`@RequestAttribute`
+### （6）`@RequestAttribute`
 
 和`@SessionAttribute`一样，您可以使用`@RequestAttribute`注解来访问先前创建的存在与请求中的属性（例如，由 Servlet`Filter` 或`HandlerInterceptor`）创建或在请求转发中添加的数据：
 
@@ -292,7 +292,7 @@ public String handle(@RequestAttribute Client client) {
 }
 ```
 
-#### （7）`@SessionAttributes`
+### （7）`@SessionAttributes`
 
 @SessionAttributes注解应用到Controller上面，可以将Model中的属性同步到session当中：
 
@@ -304,7 +304,7 @@ public class Demo {
 }
 ```
 
-#### （8）数组的传递
+### （8）数组的传递
 
 在类似批量删除的场景中，我们可能需要传递一个id数组，此时我们仅仅需要将方法的参数指定为数组即可：
 
@@ -328,7 +328,7 @@ http://localhost:8080/app/hellomvc?array=1,2,3,4
 http://localhost:8080/app/hellomvc?array=1&array=3
 ```
 
-#### （9）复杂参数的传递
+### （9）复杂参数的传递
 
 当然我们在进行参数接收的时候，其中可能包含很复杂的参数，一个请求中可能包含很多项内容，比如以下表单：
 
@@ -410,7 +410,7 @@ public String queryParam(QueryVo queryVo) {
 
 **小知识：**一般的简单工程中，并不会进行这样的设计，我们可能有一个User类就可以了，并不需要什么VO、DO啥的。但是，随着项目工程的复杂化，简单的对象已经没有办法在各个层的使用，项目越是复杂，就需要越是复杂的设计方案，这样才能满足高扩展性和维护性。
 
-### 设定字符集（中文显示问题）
+## 设定字符集（中文显示问题）
 
 > springmvc内置了一个统一的字符集处理过滤器，我们只要在`web.xml`中配置即可：
 
@@ -437,7 +437,7 @@ public String queryParam(QueryVo queryVo) {
 </filter-mapping>
 ```
 
-### 返回json数据（序列化）
+## 返回json数据（序列化）
 
 ```xml
 <dependency>
@@ -471,7 +471,7 @@ app-context.xml
 </mvc:annotation-driven>
 ```
 
-### 接收请求中的json数据
+## 接收请求中的json数据
 
 如果客户端发出的数据是json类型，需要使用@RequestBody来接收，需要配置前面的fastjson2Converter
 
@@ -482,7 +482,7 @@ public void getUser(@RequestBody User user) {
 }
 ```
 
-### 数据转化（String->Date）
+## 数据转化（String->Date）
 
 假如有如下场景，前端传递过来一个日期字符串，但是后端需要使用Date类型进行接收，这时就需要一个类型转化器进行转化。
 
@@ -538,7 +538,7 @@ private Date birthday;
 
 ![image-20220104170103757](..\img\image-20220104170103757-7595d58e.png)
 
-### 数据校验
+## 数据校验
 
 - JSR 303 是 Java 为 Bean 数据合法性校验提供的标准框架，它包含在 JavaEE 6.0 中。
 - JSR 303 通过在 Bean 属性上标注类似于 @NotNull、@Max 等标准的注解指定校验规则，并通过标准的验证接口对 Bean 进行验证。
@@ -661,7 +661,7 @@ public String insert(@Validated UserVO user, BindingResult br) {
 
 永远不要相信用户的输入，我们开发的系统凡是涉及到用户输入的地方，都要进行校验，这里的校验分为前台校验和后台校验，前台校验通常由javascript来完成，后台校验主要由java来负责，这里我们可以通过spring mvc+hibernate validator完成。
 
-### 视图解析器Tymeleaf
+## 视图解析器Tymeleaf
 
 我们默认的视图解析器是如下的配置，它主要是处理jsp页面的映射渲染：
 
@@ -735,11 +735,11 @@ public String insert(@Validated UserVO user, BindingResult br) {
 
 thymeleaf官网：[Thymeleaf](https://www.thymeleaf.org/)
 
-### 全局异常捕获
+## 全局异常捕获
 
 小知识：service层尽量不要处理异常，如果自己捕获并处理了，异常就不生效了。特别是不要生吞异常。
 
-#### （1）HandlerExceptionResolver
+### （1）HandlerExceptionResolver
 
 ![image-20211229185734642](..\img\image-20211229185734642-dcc28802.png)
 
@@ -774,7 +774,7 @@ public class GlobalExceptionResolver implements HandlerExceptionResolver {
 </error-page>
 ```
 
-#### （2）@ControllerAdvice
+### （2）@ControllerAdvice
 
 该注解同样能实现异常的全局统一处理，而且实现起来更加简单优雅，当然使用这个注解有一下三个功能：
 
@@ -809,7 +809,7 @@ public class GlobalExceptionResolverController  {
 }
 ```
 
-### 处理静态资源
+## 处理静态资源
 
 当我们使用了springmvc后，所有的请求都会交给springmvc进行管理，当然也包括静态资源，比如`/static/js/index.js`，这样的请求如果走了中央处理器，必然会抛出异常，因为没有与之对应的controller，这样我们可以使用一下配置进行处理：
 
@@ -821,7 +821,7 @@ public class GlobalExceptionResolverController  {
 
 经过这样的配置后，我们直接配置了请求url和路径的映射关系，就不会再走我们的前端控制器了。
 
-### 拦截器
+## 拦截器
 
 1. SpringMVC提供的拦截器类似于JavaWeb中的过滤器，只不过**SpringMVC拦截器只拦截被前端控制器拦截的请求**，而过滤器拦截从前端发送的【任意】请求。
 2. 熟练掌握`SpringMVC`拦截器对于我们开发非常有帮助，在没使用权限框架(`shiro，spring security`)之前，一般使用拦截器进行认证和授权操作。
@@ -829,7 +829,7 @@ public class GlobalExceptionResolverController  {
 
 ![image-20220106104047477](..\img\image-20220106104047477-af845b9c.png)
 
-#### （1）自定义拦截器
+### （1）自定义拦截器
 
 > SpringMVC拦截器的实现一般有两种方式
 
@@ -852,11 +852,11 @@ public class LoginInterceptor implements HandlerInterceptor {
 }
 ```
 
-#### （2）拦截器拦截流程
+### （2）拦截器拦截流程
 
 ![image-20220106175037525](..\img\image-20220106175037525-c07ae95f.png)
 
-#### （3）拦截器规则
+### （3）拦截器规则
 
 我们可以配置多个拦截器，每个拦截器中都有三个方法。下面将总结多个拦截器中的方法执行规律。
 
@@ -893,7 +893,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 </mvc:interceptors>
 ```
 
-### 全局配置类
+## 全局配置类
 
 springmvc有一个可用作用于做全局配置的接口，这个接口是`WebMvcConfigurer`，在这个接口中有很多默认方法，每一个默认方法都可以进行一项全局配置，这些配置可以和我们配置文件的配置一一对应：这些配置在全局的xml中也可以进行配置：
 

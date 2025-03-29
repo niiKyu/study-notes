@@ -98,6 +98,17 @@ export default defineConfig({
               { text: 'SpringSecurity', link: '/study/05-中间件/02-SpringSecurity' },
             ]
           },
+          {
+            text: '其他',
+            // 开启折叠按钮
+            collapsible: true,
+            collapsed: true,
+            items: [
+              { text: '面试题', link: '/study/其他/面试题' },
+              { text: '阿里规约', link: '/study/其他/阿里规约' },
+              { text: 'vitepress', link: '/study/其他/vitepress' },
+            ]
+          },
 
           { text: 'Markdown Examples', link: '/markdown-examples' },
           { text: 'Runtime API Examples', link: '/api-examples' }

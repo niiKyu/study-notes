@@ -1,4 +1,6 @@
-### 前端工程
+# SSM小项目
+
+## 前端工程
 
 1. github或gitee新建仓库
 
@@ -10,7 +12,7 @@
 6. yarn add element-plus
 7. yarn add axios
 
-#### vue.config.js
+### vue.config.js
 
 ```js
 const { defineConfig } = require('@vue/cli-service')
@@ -25,7 +27,7 @@ module.exports = defineConfig({
 })
 ```
 
-#### main.js
+### main.js
 
 ```js
 import { createApp } from 'vue'
@@ -43,7 +45,7 @@ createApp(App)
 .mount('#app')
 ```
 
-#### @/api/index.js
+### @/api/index.js
 
 ```js
 import axios from 'axios';
@@ -92,7 +94,7 @@ request.interceptors.response.use(function (response) {
 export default request;
 ```
 
-#### @/router/index.js
+### @/router/index.js
 
 ```js
 import { createWebHashHistory, createRouter } from 'vue-router'
@@ -148,7 +150,7 @@ router.beforeEach((to, from) => {
 export default router
 ```
 
-#### @/store/index.js
+### @/store/index.js
 
 ```js
 import { createStore } from 'vuex'
@@ -178,7 +180,7 @@ const store = createStore({
 export default store
 ```
 
-#### @/store/modules/user.js
+### @/store/modules/user.js
 
 ```js
 import { userLogin, userLogout, getUserInfo } from '@/api/user'
@@ -262,13 +264,13 @@ const user = {
 export default user
 ```
 
-### 后端工程
+## 后端工程
 
 git clone
 
 idea 新建工程到此文件夹
 
-#### application.xml
+### application.xml
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -369,7 +371,7 @@ idea 新建工程到此文件夹
 
 ```
 
-#### Constant
+### Constant
 
 ```java
 public class Constants {
@@ -404,7 +406,7 @@ public class Constants {
 }
 ```
 
-#### TokenUtil
+### TokenUtil
 
 ```java
 /**
@@ -472,7 +474,7 @@ public class TokenUtil {
 }
 ```
 
-#### LogAspect操作日志
+### LogAspect操作日志
 
 ```java
 /**
@@ -531,7 +533,7 @@ public class LogAspect {
 }
 ```
 
-#### LoginInterceptor登录拦截器
+### LoginInterceptor登录拦截器
 
 ```java
 @Slf4j
@@ -558,7 +560,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 }
 ```
 
-#### RepeatInterceptor表单重复
+### RepeatInterceptor表单重复
 
 ```java
 /**
@@ -611,7 +613,7 @@ public class RepeatInterceptor implements HandlerInterceptor {
 }
 ```
 
-#### YdlUserServiceImpl登录方法
+### YdlUserServiceImpl登录方法
 
 ```java
 @Override

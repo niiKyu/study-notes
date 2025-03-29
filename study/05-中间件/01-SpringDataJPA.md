@@ -1,4 +1,6 @@
-#### pom
+# SpringDataJAP
+
+## pom
 
 ```xml
 
@@ -7,7 +9,7 @@
     <artifactId>spring-boot-starter-data-jpa</artifactId>
 </dependency>
 ```
-#### yml
+## yml
 
 ```yml
 spring:
@@ -22,7 +24,7 @@ spring:
       ddl-auto: update //自动更新
     show-sql: true  //日志中显示sql语句
 ```
-#### entity
+## entity
 
 ```java
 @Entity
@@ -43,14 +45,14 @@ public class Person {
 }
 ```
 
-#### dao
+## dao
 
 ```java
 public interface PersonRepository extends JpaRepository<Person, Long> {
 }
 ```
 
-#### sql
+## sql
 
 ```java
 Person findByName(String name);
@@ -114,7 +116,7 @@ void delAccount(int id);
 23. FALSE----findByActiveFalse()----where x.active = false
 24. IgnoreCase----findByFirstnameIgnoreCase----where UPPER(x.firstame) = UPPER(?1)
 
-#### 分页
+## 分页
 
 `countQuery`代表当前分页的总页数，如果不设置这个参数相信你的分页一定不顺利
 

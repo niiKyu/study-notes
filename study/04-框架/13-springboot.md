@@ -1,6 +1,8 @@
-### 使用
+# SpringBoot
 
-#### yml语法
+## 使用
+
+### yml语法
 
 ```yml
 msg1: 'hello \n world'  # 单引忽略转义字符
@@ -39,9 +41,7 @@ public class PersonConfiguration {
 }
 ```
 
-
-
-#### 多环境
+### 多环境
 
 ![PixPin_2025-03-20_09-59-24](..\img\PixPin_2025-03-20_09-59-24.png)
 
@@ -52,9 +52,9 @@ java -jar xxx.jar --spring.profiles.acive=prod
 java -jar myproject.jar --spring.config.location=d://application.properties
 ```
 
-### 高级
+## 高级
 
-#### 条件注入
+### 条件注入
 
 ```java
 @Bean
@@ -86,7 +86,7 @@ springboot中的autoconfig工程里把常用的对象的配置类都写好了，
 - 配置文件位置：META-INF/spring.factories，该配置文件中定义了大量的配置类，当 SpringBoot 应用启动时，会自动加载这些配置类，初始化Bean
 - 并不是所有的Bean都会被初始化，在配置类中使用Condition来加载满足条件的Bean
 
-#### 自定义starter实现（不重要）
+### 自定义starter实现（不重要）
 
 模仿mybatis起步依赖，包括`spring-boot-starter`和`spring-boot-autoconfigure`2个包，前者只需要一个pom文件管理依赖。后者编写配置类
 
@@ -146,7 +146,7 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.ydlclass.redis.config.RedisAutoConfiguration
 ```
 
-#### SpringBoot事件
+### SpringBoot事件
 
 ![PixPin_2025-03-21_16-11-39](..\img\PixPin_2025-03-21_16-11-39-1742544717405-2.png)
 
@@ -230,9 +230,9 @@ public class MySpringApplicationRunListener implements SpringApplicationRunListe
 }
 ```
 
-#### 监控-运维
+### 监控-运维
 
-##### 监控-actuator基本使用
+#### 监控-actuator基本使用
 
 ①导入依赖坐标
 
@@ -252,7 +252,7 @@ management.endpoints.web.exposure.include=*
 
 ②访问`http://localhost:8080/acruator`
 
-##### admin图形化界面使用
+#### admin图形化界面使用
 
 需要启动两个服务，客户端(Client)和服务端(Server)。
 

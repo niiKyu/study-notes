@@ -1,4 +1,4 @@
-## Mybatis-plus
+# Mybatis-plus
 
 MyBatis-Plus（简称 MP）是一个 MyBatis 的超集，一切Mybatis的用法都可以使用
 
@@ -13,7 +13,7 @@ MyBatis-Plus（简称 MP）是一个 MyBatis 的超集，一切Mybatis的用法�
 </dependency>
 ```
 
-### mapper
+## mapper
 
 ```java
 /**
@@ -23,7 +23,7 @@ public interface UserMapper extends BaseMapper<User> {
 }
 ```
 
-#### 实体类上的注解
+### 实体类上的注解
 
 ```java
 /**
@@ -55,7 +55,7 @@ public class User {
 }
 ```
 
-#### 分页查询
+### 分页查询
 
 PageConfig
 
@@ -99,7 +99,7 @@ long pages = page.getPages();//总页数 2
 long total = page.getTotal();//总记录数 4
 ```
 
-#### 复杂条件查询QueryWrapper
+### 复杂条件查询QueryWrapper
 
 ```text
 eq( ) :  等于 =
@@ -163,7 +163,7 @@ public void testWrapper10(){
 }
 ```
 
-### service
+## service
 
 ```java
 public interface UserService extends IService<User> {
@@ -177,7 +177,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 }
 ```
 
-### 逆向工程-代码生成器
+## 逆向工程-代码生成器
 
 新建一个测试类来运行下面代码就可以直接生成
 

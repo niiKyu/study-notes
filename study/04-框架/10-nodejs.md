@@ -1,4 +1,6 @@
-#### 1、设置npm路径
+# nodejs
+
+## 1、设置npm路径
 
 ```sh
 #全局安装路径
@@ -7,7 +9,7 @@ npm config set prefix "D:\Program Files\nodejs\node_global"
 npm config set cache "D:\Program Files\nodejs\node_cache"
 ```
 
-#### 2、设置镜像
+## 2、设置镜像
 
 ```sh
 #1,淘宝镜像源
@@ -23,7 +25,7 @@ npm config set registry https://registry.npmjs.org
 npm config get registry
 ```
 
-#### 3、常用命令简写说明
+## 3、常用命令简写说明
 
 ```text
 -g： #--global 的缩写，表示安装到全局目录里
@@ -32,7 +34,7 @@ npm config get registry
  i： #install的缩写，表示安装
 ```
 
-#### 4、安装模块
+## 4、安装模块
 
 ```sh
 npm init  # npm 初始化当前目录
@@ -45,7 +47,7 @@ npm i express -g  # 会安装到配置的全局目录下
 npm i express -S  # 安装包信息将加入到dependencies生产依赖
 npm i express -D  # 安装包信息将加入到devDependencies开发依赖
 ```
-#### 5、卸载模块
+## 5、卸载模块
 
 ```sh
 npm uninstall express  # 卸载模块，但不卸载模块留在package.json中的对应信息
@@ -53,14 +55,14 @@ npm uninstall express -g  # 卸载全局模块
 npm uninstall express --save  # 卸载模块，同时卸载留在package.json中dependencies下的信息
 npm uninstall express --save-dev  # 卸载模块，同时卸载留在package.json中devDependencies下的信息
 ```
-#### 6、更新模块
+## 6、更新模块
 
 ```sh
 npm update express  # 更新最新版本的express
 npm update express@2.1.0  # 更新到指定版本号的express
 npm update express@latest  # 更新到最后的新版本
 ```
-#### 7、查看命令
+## 7、查看命令
 
 ```sh
 npm -v   #查看版本号
@@ -75,7 +77,7 @@ npm info express  # 查看express的详细信息，等同于上面的npm view ex
 npm list express 或 npm ls express  # 查看本地已安装的express的详细信息
 npm view express repository.url  # 查看express包的来源地址
 ```
-#### 8、其他命令
+## 8、其他命令
 
 ```sh
 npm cache clean  # 清除npm的缓存
@@ -87,7 +89,7 @@ npm home express  # 会打开默认浏览器跳转到github中express的主页
 npm install -g npm@9.8.1 # 升级npm
 ```
 
-#### 9、通过使用淘宝定制的cnpm安装
+## 9、通过使用淘宝定制的cnpm安装
 
 ```sh
 npm install -g cnpm --registry=https://registry.npmmirror.com
@@ -95,7 +97,7 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 # 查看版本号
 cnpm -v
 ```
-#### 10、yarn用法
+## 10、yarn用法
 
 ```sh
 1、安装yarn 
@@ -131,7 +133,7 @@ yarn add --dev/-D #  加到 devDependencies
 yarn add --peer/-P #  加到 peerDependencies
 yarn add --optional/-O #  加到 optionalDependencies
 ```
-#### 11、npm和yarn对比
+## 11、npm和yarn对比
 
 | npm                             | yarn                    |
 | ------------------------------- | ----------------------- |

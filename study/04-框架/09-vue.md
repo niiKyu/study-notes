@@ -1,8 +1,8 @@
-# `Vue`
+# Vue
 
-### 基础语法
+## 基础语法
 
-#### 基础
+### 基础
 
 ```html
 <body>
@@ -69,7 +69,7 @@
 </body>
 ```
 
-#### 组件
+### 组件
 
 ```html
 <div id="app">
@@ -112,7 +112,7 @@
 </script>
 ```
 
-#### 生命周期
+### 生命周期
 
 ```javascript
 const app = {
@@ -133,7 +133,7 @@ const { createApp, ref } = Vue
 Vue.createApp(app).mount('#app')
 ```
 
-#### 计算属性和侦听器
+### 计算属性和侦听器
 
 ```html
 <div id="app">
@@ -171,7 +171,7 @@ Vue.createApp(app).mount('#app')
 </script>
 ```
 
-#### style和class绑定
+### style和class绑定
 
 ```html
 <!-- 
@@ -196,7 +196,7 @@ fontSize: 30
 <!--style跟class一样可以绑定对象和数组-->
 ```
 
-#### 事件绑定
+### 事件绑定
 
 ```html
 <!-- 1. v-on:事件绑定的methods中会自动传入event对象，我们可以通过它获取dom元素的所有内容
@@ -214,7 +214,7 @@ fontSize: 30
 -->
 ```
 
-##### 事件修饰符
+#### 事件修饰符
 
 ```html
 <!-- 单击事件将停止传递 -->
@@ -243,7 +243,7 @@ fontSize: 30
 </form>
 ```
 
-##### 按键修饰符
+#### 按键修饰符
 
 ```html
 <!-- 仅在 `key` 为 `Enter` 时调用 `submit` -->
@@ -287,7 +287,7 @@ fontSize: 30
 - `.right`
 - `.middle`
 
-#### 表单输入绑定
+### 表单输入绑定
 
 多行文本
 
@@ -350,9 +350,9 @@ fontSize: 30
 </select>
 ```
 
-### JavaScript异步同步
+## JavaScript异步同步
 
-#### Promise
+### Promise
 
 同步异步函数
 
@@ -396,7 +396,7 @@ new Promise((resolve,reject)=>{
 })
 ```
 
-#### await async语法
+### await async语法
 
 ```js
 //只有 async 函数中才能使用 await 语法
@@ -419,7 +419,7 @@ async function fun2() {
 fun2();
 ```
 
-### vue脚手架
+## vue脚手架
 
 ```sh
 # 安装vue脚手架
@@ -432,13 +432,13 @@ cd xxx
 yarn serve
 ```
 
-### Vue-router
+## Vue-router
 
 ```sh
 yarn add vue-router@4
 ```
 
-#### 入门
+### 入门
 
 通过配置**路由**来告诉 Vue Router 为每个 URL 路径显示哪些组件。
 
@@ -477,7 +477,7 @@ import router from './router'
 createApp(App).use(router).mount('#app')
 ```
 
-#### 动态路由匹配
+### 动态路由匹配
 
 ```js
 const routes = [
@@ -527,7 +527,7 @@ const routes = [
 ]
 ```
 
-#### 嵌套路由
+### 嵌套路由
 
 我们需要在路由中配置 `children`：
 
@@ -554,7 +554,7 @@ const routes = [
 ]
 ```
 
-#### 路由命名
+### 路由命名
 
 当创建一个路由时，我们可以选择给路由一个 `name`：
 
@@ -578,7 +578,7 @@ const routes = [
 
 上述示例将创建一个指向 `/user/erina` 的链接。
 
-#### 视图命名
+### 视图命名
 
 有时候想同时 (同级) 展示多个视图，而不是嵌套展示。如果 `router-view` 没有设置名字，那么默认为 `default`。
 
@@ -608,7 +608,7 @@ const router = createRouter({
 })
 ```
 
-#### 编程式导航
+### 编程式导航
 
 利用js主动的跳转到某一个路由上，可以使用 `router.push` 方法。
 
@@ -665,7 +665,7 @@ router.go(-100)
 router.go(100)
 ```
 
-#### 重定向和别名
+### 重定向和别名
 
 ```js
 const routes = [{ path: '/home', redirect: '/' }]
@@ -704,7 +704,7 @@ const routes = [
 ]
 ```
 
-#### 路由组件传参
+### 路由组件传参
 
 我们之前使用`$route`传参
 
@@ -781,7 +781,7 @@ const routes = [
 ]
 ```
 
-#### 不同的历史模式（#路径）
+### 不同的历史模式（#路径）
 
 hash 模式是用 `createWebHashHistory()` 创建的：
 
@@ -811,7 +811,7 @@ const router = createRouter({
 })
 ```
 
-#### 导航守卫（过滤器）
+### 导航守卫（过滤器）
 
 你可以使用 `router.beforeEach` 注册一个全局前置守卫：
 
@@ -872,7 +872,7 @@ export default {
 </script>
 ```
 
-#### 动态路由
+### 动态路由
 
 动态路由主要通过两个函数实现。`router.addRoute()` 和 `router.removeRoute()`。
 
@@ -903,10 +903,10 @@ router.removeRoute('about')
 
 Vue Router 提供了两个功能来查看现有的路由：
 
-- [`router.hasRoute()`](https://router.vuejs.org/zh/api/interfaces/Router.html#Methods-hasRoute)：检查路由是否存在。
-- [`router.getRoutes()`](https://router.vuejs.org/zh/api/interfaces/Router.html#Methods-getRoutes)：获取一个包含所有路由记录的数组。
+- `router.hasRoute()`：检查路由是否存在。
+- `router.getRoutes()`：获取一个包含所有路由记录的数组。
 
-#### vue.config.js反向代理（跨域）
+### vue.config.js反向代理（跨域）
 
 ```js
 module.exports = defineConfig({
@@ -920,7 +920,7 @@ module.exports = defineConfig({
 })
 ```
 
-### Vuex（全局的变量、方法、计算属性）
+## Vuex（全局的变量、方法、计算属性）
 
 ```sh
 yarn add vuex@next --save
@@ -974,7 +974,7 @@ this.$store.commit('increment')
 console.log(this.$store.state.count)
 ```
 
-#### 在 Vue 组件中获得 Vuex 状态
+### 在 Vue 组件中获得 Vuex 状态
 
 在组件中获取全局变量推荐写在计算属性中：
 
@@ -1020,7 +1020,7 @@ methods: {
 }
 ```
 
-#### 项目结构
+### 项目结构
 
 当项目变得庞大之后，Vue建议把 Vuex 相关代码分割到模块中。
 
@@ -1041,7 +1041,7 @@ methods: {
         └── products.js   # 产品模块
 ```
 
-#### Module
+### Module
 
 ```js
 const moduleA = {
@@ -1068,7 +1068,7 @@ store.state.a // -> moduleA 的状态
 store.state.b // -> moduleB 的状态
 ```
 
-### setup组合式API
+## setup组合式API
 
 ```vue
 <script>
@@ -1125,7 +1125,7 @@ watch(count, (newCount) => { console.log(newCount) })
 </script>
 ```
 
-### element-plus
+## element-plus
 
 ```sh
 yarn add element-plus
@@ -1156,7 +1156,7 @@ app.mount('#app')
     └── index.vue
 ```
 
-### sessionStorage和localStorage
+## sessionStorage和localStorage
 
 vuex的数据，页面刷新就被销毁
 
