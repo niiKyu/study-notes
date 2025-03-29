@@ -6,23 +6,13 @@ export default defineConfig({
   description: "VitePress + Vue 搭建",
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
-    [
-      'script',
-      { src: './lib/L2Dwidget.min.js' }
-    ],
-    [
-      'script',
-      {},
-      `setTimeout(() => {
-        L2Dwidget.init({model: { jsonPath: "./assets/asuna_04.model.json" }});
-      }, 200)`
-    ],
-    [
-      'div',
-      { hidden: '', style: "width:70%; height:46px; bottom:0; position:fixed;background-color: grey; line-height:46px; color:aliceblue; text-align: center;"}
-    ]
+
   ],
   themeConfig: {
+    footer: {
+      message: '',
+      copyright: 'Copyright © 2025-present Evan You'
+    },
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '首页', link: '/' },
@@ -170,6 +160,11 @@ export default defineConfig({
     }, 
   },
   lastUpdated: true, //首次配置不会立即生效，需git提交后爬取时间戳 //
-
+  markdown: {
+    image: {
+      // 开启图片懒加载
+      lazyLoading: true
+    },
+  },
   
 })

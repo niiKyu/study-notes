@@ -15,11 +15,14 @@ hero:
       link: https://github.com/vuejs/vitepress
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Java基础
+    details: Java基础知识，面向对象，集合，JUC并发编程等Java核心知识
+  - title: 开源框架
+    details: SSM, Spring Boot, Spring Cloud, Spring Security等开源框架
+  - title: 中间件
+    details: RocketMQ, Redis, ElasticSearch, RabbitMQ, Kafka等中间件
 ---
 
+<template>
+<L2D />
+</template>
