@@ -1,4 +1,4 @@
-# jdbc
+# JDBC
 
 ## 第一章 jdbc概述
 

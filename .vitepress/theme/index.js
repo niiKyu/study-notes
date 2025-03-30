@@ -1,5 +1,6 @@
 import DefaultTheme from 'vitepress/theme'
 import Layout from "./components/Layout.vue"
+import ArticleMetadata from "./components/ArticleMetadata.vue"
 import './style/index.css'
 
 import { inBrowser } from 'vitepress'
@@ -14,7 +15,7 @@ export default {
         busuanzi.fetch()
       }
     }
-
+    app.component('ArticleMetadata' , ArticleMetadata)
   },
   Layout,
   
