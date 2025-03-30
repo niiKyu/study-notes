@@ -22,7 +22,3 @@ features:
   - title: 中间件
     details: RocketMQ, Redis, ElasticSearch, RabbitMQ, Kafka等中间件
 ---
-
-<template>
-<L2D />
-</template>
