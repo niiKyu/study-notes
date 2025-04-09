@@ -97,8 +97,8 @@ export default defineConfig({
             ]
           },
 
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          // { text: 'Markdown Examples', link: '/markdown-examples' },
+          // { text: 'Runtime API Examples', link: '/api-examples' }
         ]
       }
     ],
