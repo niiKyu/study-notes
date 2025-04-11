@@ -83,6 +83,7 @@ export default defineConfig({
             items: [
               { text: 'SpringDataJPA', link: '/study/05-中间件/01-SpringDataJPA' },
               { text: 'SpringSecurity', link: '/study/05-中间件/02-SpringSecurity' },
+              { text: 'RocketMQ', link: '/study/05-中间件/03-RocketMQ' },
             ]
           },
           {
