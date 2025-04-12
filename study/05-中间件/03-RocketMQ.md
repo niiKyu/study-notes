@@ -1,38 +1,65 @@
 # RocketMQ
 
-MQ产品介绍
+推荐学习的四个网站：
+主要来源：rocketmq官网一https://rocketmq.apache.org/（官网是最值得学习的老师，我只做知识的讲述者）
+社区网站：https://rocketmq-learning.com
+GitHub：https://github.com/apache/rocketmq
+阿里云：https://www.aliyun.com/product/rocketmq
 
-1. ActiveMQjava语言实现，万级数据吞吐量，处理速度ms级，主从架构，**成熟度高**
-2. RabbitMQ**erlang语言实现**，万级数据吞吐量，**处理速度us级**，主从架构，
-3. RocketMQjava语言实现，**十万级**数据吞吐量，处理速度ms级，分布式架构，功能强大，扩展性强
-4. kafkascala语言实现，**十万级**数据吞吐量，处理速度ms级，分布式架构，功能较少，应用于大数据较多
+## 通信方式
 
-![img](..\img\1713934106091-fac3e577-8ae2-4789-921d-cade4b5ba4a5.webp)
+同步RPC调用模型![同步调用](..\img\syncarchi-ebbd41e1afd6adf432792ee2d7a91748.png)
 
-window环境
+异步通信模型![异步调用](..\img\asyncarchi-e7ee18dd77aca472fb80bb2238d9528b.png)
 
-[下载](https://www.apache.org/)后设置环境变量
+**RPC是一种同步的通信方式**，即客户端调用远程服务时，需要等待服务端响应才能继续执行。RPC通常使用 HTTP、HTTPS、TCP等协议进行通信，可以实现高性能、高可用和高并发。RPC适用于需要大量数据传输、需要 保证数据一致性的场景，例如金融、电商等。 
 
-```sh
-#环境变量
-ROCKETMQ_HOME
-NAMESRV_ADDR localhost:9876
-```
+**MQ是一种异步的通信方式**，即客户端将消息发送到MQ队列中，服务端可以从队列中获取消息进行处理。MQ适 用于需要异步处理、解耦、流量控制等场景，例如日志、监控、报警等。MQ适用于高吞吐量、低延迟、可扩展性 强的场景。
 
-```sh
-#启动
-start mqbroker.cmd -n 127.0.0.1:9876 autoCreateTopicEnable=true
-#测试生产者发送消息
-tools.cmd  org.apache.rocketmq.example.quickstart.Producer
-#测试消费者接收消息
-tools.cmd org.apache.rocketmq.example.quickstart.Consumer
-```
+总结来说，RPC适用于需要同步调用的场景，而MQ适用于需要异步处理、解耦、流量控制的场景。在实际应用
+中，需要根据业务需求和系统特点来选择合适的通信方式。
 
-## 图形化界面
+针对以上两种通信方式，我们分别列举几个列子：
 
-详情[RocketMQ Dashboard]([RocketMQ Dashboard | RocketMQ](https://rocketmq.apache.org/zh/docs/deploymentOperations/04Dashboard))
+**RPC同步通信场景：**
+
+1. 在网银转账时，需要将收款人和付款人的账户信息进行验证，并进行转账操作。在这个场景中，网银系统可以
+   提供转账API，客户端在调用转账API时，需要等待转账完成才能继续执行后续操作，这类似于RPC同步通信。
+2. 在游戏中的组队系统中，需要将玩家加入到队伍中，并协调队伍成员之间的操作。在这个场景中，游戏系统提
+   供了加入队伍的API，客户端在调用该API时需要等待加入队伍的结果，这类似于RPC同步通信。
+
+**MQ异步通信场景：**
+
+1. 在电商系统中，当用户下单后，系统需要将订单信息发送给物流系统进行配送。在这个场景中，电商系统可以
+   将订单信息作为消息发布到MQ队列中，物流系统从MQ队列中订阅该消息并进行配送操作。由于配送操作是
+   异步进行的，客户端不需要等待配送完成就可以继续执行后续操作，这类似于MQ异步通信。
+2. 在社交系统中，当用户发布一条消息时，系统需要将该消息推送给其他用户。在这个场景中，社交系统可以将
+   该消息作为消息发布到MQ队列中，其他用户从MQ队列中订阅该消息并进行查看操作。由于查看操作是异步
+   进行的，客户端不需要等待消息推送完成就可以继续执行后续操作，这类似于MQ异步通信。
+
+## 消息传输模型
+
+点对点模型 ![点对点模型](..\img\p2pmode-fefdc2fbe4792e757e26befc0b3acbff.png)
+
+点对点模型也叫队列模型，具有如下特点：
+
+- 消费匿名：消息上下游沟通的唯一的身份就是队列，下游消费者从队列获取消息无法申明独立身份。
+- 一对一通信：基于消费匿名特点，下游消费者即使有多个，但都没有自己独立的身份，因此共享队列中的消息，每一条消息都只会被唯一一个消费者处理。因此点对点模型只能实现一对一通信。
+
+发布订阅模型 ![发布订阅模型](..\img\pubsub-042a4e5e5d76806943bd7dcfb730c5d5.png)
+
+发布订阅模型具有如下特点：
+
+- 消费独立：相比队列模型的匿名消费方式，发布订阅模型中消费方都会具备的身份，一般叫做订阅组（订阅关系），不同订阅组之间相互独立不会相互影响。
+- 一对多通信：基于独立身份的设计，同一个主题内的消息可以被多个订阅组处理，每个订阅组都可以拿到全量消息。因此发布订阅模型可以实现一对多通信。
+
+传输模型对比
+
+点对点模型和发布订阅模型各有优势，点对点模型更为简单，而发布订阅模型的扩展性更高。 Apache RocketMQ 使用的传输模型为发布订阅模型，因此也具有发布订阅模型的特点。
 
 ## Java中发送消息
+
+[在Java中使用rocketmq](https://rocketmq.apache.org/zh/docs/quickStart/01quickstart/)
 
 ```xml
 <dependency>
