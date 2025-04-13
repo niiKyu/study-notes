@@ -57,6 +57,12 @@ GitHub：https://github.com/apache/rocketmq
 
 点对点模型和发布订阅模型各有优势，点对点模型更为简单，而发布订阅模型的扩展性更高。 Apache RocketMQ 使用的传输模型为发布订阅模型，因此也具有发布订阅模型的特点。
 
+## 领域模型
+
+### 消息
+
+消息不可变性 一旦产生消息内容不会发生改变   消息持久化  默认对消息持久化  可回溯性 可回复性
+
 ## Java中发送消息
 
 [在Java中使用rocketmq](https://rocketmq.apache.org/zh/docs/quickStart/01quickstart/)

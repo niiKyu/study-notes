@@ -2007,3 +2007,22 @@ Java HotSpot(TM) 64-Bit Server VM 18.9 (build 11.0.4+10-LTS, mixed mode)
 ```bash
 firewall-cmd --zone=public --remove-port=9200/tcp --permanent
 ```
+
+## 其他
+
+### Linux环境变量加载顺序的方法
+
+1. `/etc/environment`
+2. `/etc/profile`
+3. `/etc/bash.bashrc`
+4. `/etc/profile.d/test.sh`
+5. `~/.profile`
+6. `~/.bashrc`
+
+### Vim快捷键
+
+dd删除一行dw删除一个字d/D删除到行末
+yy复制一行yw复制一个字y/Y复制到行末
+p粘贴到当前行的下面
+P粘贴到当前行的下面
+u撤销
