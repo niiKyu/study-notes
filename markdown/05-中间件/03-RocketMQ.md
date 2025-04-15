@@ -6,7 +6,7 @@ rocketmq官网一https://rocketmq.apache.org/
 
 社区网站：https://rocketmq-learning.com
 
-GitHub：https://github.com/apache/rocketmq
+GitHub：https://github.com/apache/rocketmq-clients/blob/master/java/client/src/main/java/org/apache/rocketmq/client/java/example/ProducerNormalMessageExample.java
 
 阿里云：https://www.aliyun.com/product/rocketmq
 
@@ -110,7 +110,7 @@ Apache RocketMQ 的消息的顺序性分为两部分，生产顺序性和消费�
 
 **总结**
 
-单一Producer发送消息，且消息都属于同一个消息组（MessageGroup），所有的消息会被发送到同一个FIFO类型的Topic中的同一个队列；消费者处理同一个消息组内的消息时，会顺序串行消费。（同一个消费者组有多个消费者也会顺序串行消费）
+单一生产者发送消息，且消息都属于同一个消息组（MessageGroup），所有的消息会被发送到同一个FIFO类型的Topic中的同一个队列；消费者处理同一个消息组内的消息时，会顺序串行消费。（同一个消费者组有多个消费者也会顺序串行消费）
 
 ### 事务消息
 
@@ -208,7 +208,125 @@ nohup sh bin/mqproxy -n
 </dependency>
 ```
 
-## 面试
+### ProducerExample
 
-如何保证消息的顺序性、事务消息何为半消息、消息幂等性问题（保证消费多个消息跟消费一个消息结果相同）、消息堆积问题
+```java
+// 接入点地址，需要设置成Proxy的地址和端口列表，一般是xxx:8080;xxx:8081。
+String endpoint = "192.168.169.130:8081";
+// 消息发送的目标Topic名称，需要在服务端提前创建。
+String topic = "ydlclass";
+ClientServiceProvider provider = ClientServiceProvider.loadService();
+ClientConfigurationBuilder builder = ClientConfiguration.newBuilder().setEndpoints(endpoint);
+ClientConfiguration configuration = builder.build();
+// 初始化Producer时需要设置通信配置以及预绑定的Topic。
+Producer producer = provider.newProducerBuilder()
+        .setTopics(topic)
+        .setClientConfiguration(configuration)
+        .build();
+// 普通消息发送。
+Message message = provider.newMessageBuilder()
+        .setTopic(topic)
+        // 设置消息索引键，可根据关键字精确查找某条消息。由生产者定义
+        .setKeys("messageKey")
+        // 设置消息Tag，用于消费端根据指定Tag过滤消息。由生产者定义
+        .setTag("messageTag")
+        // 消息体。
+        .setBody("messageBody".getBytes())
+        .build();
+try {
+    // 发送消息，需要关注发送结果，并捕获失败等异常。
+    SendReceipt sendReceipt = producer.send(message);
+    logger.info("Send message successfully, messageId={}", sendReceipt.getMessageId());
+} catch (ClientException e) {
+    logger.error("Failed to send message", e);
+}
+try {
+    producer.close();
+} catch (IOException e) {
+    logger.error("Failed to close producer", e);
+}
+```
 
+### ConsumerExample
+
+```java
+final ClientServiceProvider provider = ClientServiceProvider.loadService();
+// 接入点地址，需要设置成Proxy的地址和端口列表，一般是xxx:8081;xxx:8081。
+String endpoints = "192.168.169.130:8081";
+ClientConfiguration clientConfiguration = ClientConfiguration.newBuilder()
+        .setEndpoints(endpoints)
+        .build();
+// 订阅消息的过滤规则，表示订阅所有Tag的消息。
+String tag = "*";
+FilterExpression filterExpression = new FilterExpression(tag, FilterExpressionType.TAG);
+// 为消费者指定所属的消费者分组，Group需要在服务端提前创建。
+String consumerGroup = "YourConsumerGroup";
+// 指定需要订阅哪个目标Topic，Topic需要提前创建。
+String topic = "ydlclass";
+// 初始化PushConsumer，需要绑定消费者分组ConsumerGroup、通信参数以及订阅关系。
+PushConsumer pushConsumer = provider.newPushConsumerBuilder()
+        .setClientConfiguration(clientConfiguration)
+        // 设置消费者分组。
+        .setConsumerGroup(consumerGroup)
+        // 设置预绑定的订阅关系。
+        .setSubscriptionExpressions(Collections.singletonMap(topic, filterExpression))
+        // 设置消费监听器。
+        .setMessageListener(messageView -> {
+            // 处理消息并返回消费结果。
+            System.out.println("Consume message successfully, messageId="+messageView.getMessageId() );
+            return ConsumeResult.SUCCESS;
+        })
+        .build();
+Thread.sleep(Long.MAX_VALUE);
+// 如果不需要再使用 PushConsumer，可关闭该实例。
+// pushConsumer.close();
+```
+
+### 顺序消息
+
+```java
+//以下示例表示：延迟时间为5秒之后的Unix时间戳。
+Long deliverTimeStamp = System.currentTimeMillis() + 5000;
+Message message = messageBuilder.setTopic("ydlclass_delay")     // 设置的Topic类型必须为Delay
+        .setKeys("messageKey")
+        .setTag("messageTag")
+        .setDeliveryTimestamp(deliverTimeStamp)
+        .setBody("messageBody".getBytes())
+        .build();
+```
+
+### 事务消息
+
+```java
+final ClientServiceProvider provider = ClientServiceProvider.loadService();
+
+String topic = "yourTransactionTopic";
+// 服务端收不到二次确认之后，会进行回查二次确认结果，我们需要编写回查逻辑
+TransactionChecker checker = messageView -> {
+    logger.info("Receive transactional message check, message={}", messageView);
+    // 返回Commit或Rollback
+    return TransactionResolution.COMMIT;
+};
+final Producer producer = ProducerSingleton.getTransactionalInstance(checker, topic);
+final Transaction transaction = producer.beginTransaction();
+byte[] body = "This is a transaction message for Apache RocketMQ".getBytes(StandardCharsets.UTF_8);
+String tag = "yourMessageTagA";
+final Message message = provider.newMessageBuilder()
+        .setTopic(topic)
+        .setTag(tag)
+        .setKeys("yourMessageKey-565ef26f5727")
+        .setBody(body)
+        .build();
+try {
+    final SendReceipt sendReceipt = producer.send(message, transaction);
+    logger.info("Send transaction message successfully, messageId={}", sendReceipt.getMessageId());
+} catch (Throwable t) {
+    logger.error("Failed to send message", t);
+    return;
+}
+// Commit the transaction.
+transaction.commit();
+// Or rollback the transaction.
+// transaction.rollback();
+// producer.close();
+```

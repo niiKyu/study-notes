@@ -19,7 +19,7 @@
 我们需要写controller接口（我们的接口需要加入白名单），在controller中调用prodivermanager auth方法，替换它的UserDetailsService和PasswordEncode，接着自己定义一个登录拦截器
 
 1. 自定义登录接口
-   * 调用prodivermanager auth方法
+   * 调用providermanager auth方法
    * 登陆成功生成jwt
    * 存入redis
 2. 自定义UserDetailsService实现类
