@@ -110,7 +110,7 @@ Apache RocketMQ 的消息的顺序性分为两部分，生产顺序性和消费�
 
 **总结**
 
-单一Producer发送消息，且消息都属于同一个消息组（MessageGroup），所有的消息会被发送到同一个FIFO类型的Topic中的同一个队列；单一消费者使用PushConsumer，如果使用SimpleConsumer需要自行保证顺序
+单一Producer发送消息，且消息都属于同一个消息组（MessageGroup），所有的消息会被发送到同一个FIFO类型的Topic中的同一个队列；消费者处理同一个消息组内的消息时，会顺序串行消费。（同一个消费者组有多个消费者也会顺序串行消费）
 
 ### 事务消息
 

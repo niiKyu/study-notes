@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: 快速开始
-      link: /study/01-JavaSE/1JavaSE
+      link: /markdown/01-JavaSE/1JavaSE
     - theme: alt
       text: vitepress官方
       link: https://github.com/vuejs/vitepress

@@ -16,6 +16,7 @@ export default {
       }
     }
     app.component('ArticleMetadata' , ArticleMetadata)
+
   },
   Layout,
   
