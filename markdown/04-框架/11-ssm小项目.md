@@ -94,6 +94,72 @@ request.interceptors.response.use(function (response) {
 export default request;
 ```
 
+```js
+import request from '@/api';
+
+export function userLogin(data) {
+    return request({
+        url: '/login',
+        method: 'post',
+        data: data
+    })
+}
+
+export function userLogout() {
+    return request({
+        url: '/logout',
+        method: 'get'
+    })
+}
+
+export function getUserList(data) {
+    return request({
+        url: '/ydlUser',
+        method: 'get',
+        params: data
+    })
+}
+export function getUserById(id) {
+    return request({
+        url: '/ydlUser/'+id,
+        method: 'get',
+    })
+}
+
+export function getUserInfo() {
+    return request({
+        url: '/ydlUser/getInfo',
+        method: 'get',
+    })
+}
+
+export function insertUser(data) {
+    return request({
+        url: '/ydlUser',
+        method: 'post',
+        data: data
+    })
+}
+
+export function updateUser(data) {
+    return request({
+        url: '/ydlUser',
+        method: 'put',
+        data: data
+    })
+}
+
+export function deleteUser(id) {
+    return request({
+        url: '/ydlUser',
+        method: 'delete',
+        params: {
+            id: id
+        }
+    })
+}
+```
+
 ### @/router/index.js
 
 ```js
@@ -262,6 +328,23 @@ const user = {
 }
 
 export default user
+```
+
+### @/assets/style/common.css
+
+```css
+html,body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#app {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
 ```
 
 ## 后端工程

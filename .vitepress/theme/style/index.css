@@ -2,3 +2,7 @@
 @import './title-h1.css';
 @import './blur.css';
 @import './hidden.css';
+
+html,body,#app{
+    height: 100%;
+}

@@ -1,7 +1,9 @@
 import DefaultTheme from 'vitepress/theme'
 import Layout from "./components/Layout.vue"
 import ArticleMetadata from "./components/ArticleMetadata.vue"
+import WordTools from "./components/WordTools.vue"
 import './style/index.css'
+
 
 import { inBrowser } from 'vitepress'
 import busuanzi from 'busuanzi.pure.js'
@@ -16,7 +18,7 @@ export default {
       }
     }
     app.component('ArticleMetadata' , ArticleMetadata)
-
+    app.component('WordTools' , WordTools)
   },
   Layout,
   
