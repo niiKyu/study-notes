@@ -82,17 +82,18 @@ export default defineConfig({
               { text: 'ssm小项目', link: '/markdown/04-框架/11-ssm小项目' },
               { text: 'mybatis-plus', link: '/markdown/04-框架/12-mybatis-plus' },
               { text: 'springboot', link: '/markdown/04-框架/13-springboot' },
+              { text: 'SpringDataJPA', link: '/markdown/04-框架/14-SpringDataJPA' },
+              { text: 'SpringSecurity', link: '/markdown/04-框架/15-SpringSecurity' },
             ]
           },
           {
-            text: '中间件',
+            text: '中间件和微服务',
             // 开启折叠按钮
             collapsible: true,
             collapsed: true,
             items: [
-              { text: 'SpringDataJPA', link: '/markdown/05-中间件/01-SpringDataJPA' },
-              { text: 'SpringSecurity', link: '/markdown/05-中间件/02-SpringSecurity' },
-              { text: 'RocketMQ', link: '/markdown/05-中间件/03-RocketMQ' },
+              { text: 'RocketMQ', link: '/markdown/05-中间件/01-RocketMQ' },
+              { text: 'Activiti', link: '/markdown/05-中间件/02-Activiti' },
             ]
           },
           {
