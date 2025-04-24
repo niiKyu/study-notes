@@ -800,3 +800,415 @@ act_ru_task 任务信息
 		//repositoryService.deleteDeployment(deploymentId, true);
 ```
 
+### 八、流程资源下载
+
+使用commons-io.jar或使用javaio
+
+```xml
+<dependency>
+    <groupId>commons-io</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>2.6</version>
+</dependency>
+```
+
+```java
+//创建流程引擎配置文件
+ProcessEngineConfiguration configuration
+        = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cgf.xml","processEngineConfiguration");
+//通过配置文件，创建流程
+ProcessEngine processEngine = configuration.buildProcessEngine();
+
+RepositoryService repositoryService = processEngine.getRepositoryService();
+//1repositoryService 获取相应的数据
+ProcessDefinition definition = repositoryService.createProcessDefinitionQuery().processDefinitionKey("holiday").singleResult();
+String deploymentId = definition.getDeploymentId();
+
+InputStream xmlFileInputStream = repositoryService.getResourceAsStream(deploymentId,definition.getResourceName());
+InputStream pngInputStream = repositoryService.getResourceAsStream(deploymentId, definition.getDiagramResourceName());
+
+//2转成输出流，放到本地文件夹下
+FileOutputStream xmlFileOutputStream=new FileOutputStream(new File("e:/holiday.bpmn20.xml"));
+FileOutputStream pngFileOutputStream=new FileOutputStream(new File("e:/holiday.png"));
+
+//3工具类把输入流转成输出流
+IOUtils.copy(xmlFileInputStream,xmlFileOutputStream);
+IOUtils.copy(pngInputStream,pngFileOutputStream);
+
+//4关流
+pngFileOutputStream.close();
+xmlFileOutputStream.close();
+pngInputStream.close();
+xmlFileInputStream.close();
+```
+
+### 九、流程历史信息的查看
+
+```java
+//      获取引擎
+ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+//        获取HistoryService
+HistoryService historyService = processEngine.getHistoryService();
+//        获取 actinst表的查询对象
+HistoricActivityInstanceQuery instanceQuery = historyService.createHistoricActivityInstanceQuery();
+//        查询 actinst表，条件：根据 InstanceId 查询
+//        instanceQuery.processInstanceId("2503");
+//        查询 actinst表，条件：根据 DefinitionId 查询
+instanceQuery.processDefinitionId("holiday:1:4");
+//        增加排序操作,orderByHistoricActivityInstanceStartTime 根据开始时间排序 asc 升序
+instanceQuery.orderByHistoricActivityInstanceStartTime().asc();
+//        查询所有内容
+List<HistoricActivityInstance> activityInstanceList = instanceQuery.list();
+//        输出
+for (HistoricActivityInstance hi : activityInstanceList) {
+    System.out.println(hi.getActivityId());
+    System.out.println(hi.getActivityName());
+    System.out.println(hi.getProcessDefinitionId());
+    System.out.println(hi.getProcessInstanceId());
+    System.out.println("<==========================>");
+}
+```
+
+## 流程实例
+
+### 一、启动流程实例 并添加Businesskey（业务标识）
+
+![img](..\img\1713934066309-ee4e7aef-0b0e-43ea-960e-6cdd49759bdd.webp)
+
+Businesskey：业务标识，通常为业务表的主键，业务标识和流程实例一一对应。业务标识来源于业务系统（即上图OA系统）。
+
+```java
+//        1、得到ProcessEngine
+ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+//        2、得到RunTimeService
+RuntimeService runtimeService = processEngine.getRuntimeService();
+//        3、启动流程实例，同时还要指定业务标识businessKey，也就是出差申请单id，这里是1001
+ProcessInstance processInstance = runtimeService.
+        startProcessInstanceByKey("holiday","10001");
+//        4、输出processInstance相关属性
+System.out.println("id=="+processInstance.getBusinessKey());
+
+```
+
+### 二、挂起、激活流程实例
+
+#### 1、全部流程实例挂起
+
+```java
+//        获取processEngine
+ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+//        获取repositoryService
+RepositoryService repositoryService = processEngine.getRepositoryService();
+//        查询流程定义的对象
+ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().
+        processDefinitionKey("holiday").
+        singleResult();
+//        得到当前流程定义的实例是否都为暂停状态
+boolean suspended = processDefinition.isSuspended();
+//        流程定义id
+String processDefinitionId = processDefinition.getId();
+//        判断是否为暂停
+if(suspended){
+//         如果是暂停，可以执行激活操作 ,参数1 ：流程定义id ，参数2：派生的流程实例是否也激活，参数3：激活时间
+    repositoryService.activateProcessDefinitionById(processDefinitionId,
+            true,
+            null
+    );
+    System.out.println("processDefinitionId："+processDefinitionId+",activate");
+}else{
+//          如果是激活状态，可以暂停，参数1 ：流程定义id ，参数2：派生的流程实例是否也暂停，参数3：暂停时间
+    repositoryService.suspendProcessDefinitionById(processDefinitionId,
+            true,
+            null);
+    System.out.println("processDefinitionId："+processDefinitionId+",suspend");
+}
+
+```
+
+#### 2、单个流程实例挂起
+
+```java
+//        获取processEngine
+ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+//        RuntimeService
+RuntimeService runtimeService = processEngine.getRuntimeService();
+//        查询流程定义的对象
+ProcessInstance processInstance = runtimeService.
+        createProcessInstanceQuery().
+        processInstanceId("15001").
+        singleResult();
+//        得到当前流程定义的实例是否都为暂停状态
+boolean suspended = processInstance.isSuspended();
+//        流程定义id
+String processDefinitionId = processInstance.getId();
+//        判断是否为暂停
+if(suspended){
+//         如果是暂停，可以执行激活操作 ,参数：流程定义id
+    runtimeService.activateProcessInstanceById(processDefinitionId);
+    System.out.println("processDefinitionId："+processDefinitionId+",activate");
+}else{
+//          如果是激活状态，可以暂停，参数：流程定义id
+    runtimeService.suspendProcessInstanceById( processDefinitionId);
+    System.out.println("processDefinitionId："+processDefinitionId+",suspend");
+}
+```
+
+### 三、UEL 表达式（变量）
+
+#### 1、读取变量
+
+```java
+${assignee0}
+${user.assignee}
+${userBean.getUserId()}
+${order.price > 100 && order.price < 250}
+//表达式支持解析基础类型、 bean、 list、 array 和 map
+```
+
+#### 2、global变量
+
+```java
+Map<String,Object> map=new HashMap<>();
+Holidays holidays = new Holidays();
+holidays.setNum(2d);
+map.put("holidays",holidays);
+map.put("assignee0","itlils");
+map.put("assignee1","zhuzhu");
+map.put("assignee2","itnanls");
+map.put("assignee3","weiwei");
+```
+
+##### a、启动流程时设置变量
+
+```java
+//流程变量作用域是一个流程实例，key相同，后者覆盖前者
+runtimeService.startProcessInstanceByKey("holiday-global1",map);
+```
+
+##### b、任务办理时设置变量
+
+```java
+//该流程变量只有在该任务完成后其它结点才可使用该变量，作用域是整个流程实例
+Task task = taskService.createTaskQuery()
+    .processDefinitionKey(key)
+    .taskAssignee(assingee)
+    .singleResult();
+if(task != null){
+    //完成任务时，设置流程变量的值
+    taskService.complete(task.getId(),map);
+    System.out.println("任务执行完成");
+}
+```
+
+##### c、通过当前流程实例设置
+
+```java
+//该流程实例必须未执行完成。通过runtimeService.getVariable()获取流程变量。
+runtimeService.setVariable(executionId, "holidays", holidays);
+```
+
+##### d、通过当前任务设置
+
+```java
+//务id必须是当前待办任务id。通过taskService.getVariable()获取流程变量。
+taskService.setVariable(taskId, "holidays", holidays);
+```
+
+#### 3、local流程变量
+
+```java
+//只能在该任务结束前使用，作用域为该任务
+taskService.setVariablesLocal(taskId, variables);
+
+//可通过historyService查询每个历史任务时将流程变量的值也查询出来。
+HistoricTaskInstanceQuery historicTaskInstanceQuery = historyService.createHistoricTaskInstanceQuery();
+      // 查询结果包括 local变量
+List<HistoricTaskInstance> list = historicTaskInstanceQuery.includeTaskLocalVariables().list();
+for (HistoricTaskInstance historicTaskInstance : list) {
+         System.out.println("==============================");
+         System.out.println("任务id：" + historicTaskInstance.getId());
+         System.out.println("任务名称：" + historicTaskInstance.getName());
+         System.out.println("任务负责人：" + historicTaskInstance.getAssignee());
+     System.out.println("任务local变量："+ historicTaskInstance.getTaskLocalVariables());
+
+}
+```
+
+#### 分配任务负责人
+
+![img](..\img\1713934067223-8fe5d05a-848a-4faa-964a-549c8f77505e.webp)
+
+```java
+//创建流程引擎配置文件
+ProcessEngineConfiguration configuration
+        = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cgf.xml","processEngineConfiguration");
+//通过配置文件，创建流程
+ProcessEngine processEngine = configuration.buildProcessEngine();
+
+RuntimeService runtimeService = processEngine.getRuntimeService();
+//如果将 pojo 存储到流程变量中，必须实现序列化接口 serializable，为了防止由于新增字段无法反序列化，需要生成 serialVersionUID。
+Map<String,Object> map=new HashMap<>();
+map.put("assignee0","itlils");
+map.put("assignee1","zhuzhu");
+map.put("assignee2","itnanls");
+map.put("assignee3","weiwei");
+ProcessInstance instance = runtimeService.startProcessInstanceByKey("holiday1",map);
+
+System.out.println("ProcessDefinitionId"+instance.getProcessDefinitionId());
+System.out.println("Id"+instance.getId());
+System.out.println("ActivityId"+instance.getActivityId());
+```
+
+#### 分支
+
+![img](..\img\1713934067928-c4df520e-7e5e-45d5-b05c-6d3c5716dda6.webp)
+
+![img](..\img\1713934069482-b2adebb5-2aa3-4149-865a-d7efbe0830fb.webp)
+
+## 组任务
+
+临时任务负责人变更需要修改流程定义，系统可扩展性差。针对这种情况可以给任务设置多个候选人，可以从候选人中选择参与者来完成任务。
+
+### 一、设置任务候选人
+
+设置 candidate-users(候选人)，多个候选人之间用逗号分开。![img](..\img\1713934069561-e6459903-6945-4b9e-9c60-4855ee182d37.webp)
+
+### 二、组任务办理流程
+
+#### 1、查询组任务
+
+查询该候选人当前的待办任务。候选人不能立即办理任务。
+
+```java
+//查询组任务
+List<Task> list = taskService.createTaskQuery()
+     .processDefinitionKey(processDefinitionKey)
+     .taskCandidateUser(candidateUser)//根据候选人查询
+     .list();
+for (Task task : list) {
+  System.out.println("----------------------------");
+  System.out.println("InstanceId：" + task.getProcessInstanceId());
+  System.out.println("id：" + task.getId());
+  System.out.println("Assignee：" + task.getAssignee());
+  System.out.println("Name：" + task.getName());
+}
+```
+
+#### 2、拾取(claim)任务
+
+该组任务的所有候选人都能拾取。组任务拾取后，该任务已有负责人（assignee），通过候选人将查询不到该任务
+
+如果拾取后不想办理该任务？需要将已经拾取的个人任务归还到组里边，将个人任务变成了组任务。
+
+```java
+//要拾取的任务id
+String taskId = "6302";
+//任务候选人id
+String userId = "itwangls";
+//拾取任务
+//即使该用户不是候选人也能拾取(建议拾取时校验是否有资格)    
+//校验该用户有没有拾取任务的资格
+Task task = taskService.createTaskQuery()
+     .taskId(taskId)
+     .taskCandidateUser(userId)//根据候选人查询
+     .singleResult();
+if(task!=null){
+//拾取任务
+  taskService.claim(taskId, userId);
+  System.out.println("任务拾取成功");
+}
+```
+
+#### 3、查询个人任务
+
+查询方式同个人任务部分，根据assignee查询用户负责的个人任务。
+
+```java
+TaskService taskService = processEngine.getTaskService();
+List<Task> list = taskService.createTaskQuery()
+   .processDefinitionKey(processDefinitionKey)
+   .taskAssignee(assignee)
+   .list();
+for (Task task : list) {
+   System.out.println("----------------------------");
+   System.out.println("流程实例id：" + task.getProcessInstanceId());
+   System.out.println("任务id：" + task.getId());
+   System.out.println("任务负责人：" + task.getAssignee());
+   System.out.println("任务名称：" + task.getName());
+}
+```
+
+#### 4、办理个人任务
+
+```java
+String taskId = "12304";
+taskService().complete(taskId);
+```
+
+#### 5、归还或交接组任务
+
+```java
+// 当前待办任务
+String taskId = "6004";
+// 任务负责人
+String userId = "zhangsan2";
+// 校验userId是否是taskId的负责人，如果是负责人才可以归还组任务
+Task task = taskService
+   .createTaskQuery()
+   .taskId(taskId)
+   .taskAssignee(userId)
+   .singleResult();
+if (task != null) {
+   // 如果设置为null，归还组任务,该任务没有负责人
+   // 如果设置为其他用户，委托给其它用户负责
+   taskService.setAssignee(taskId, null);
+}
+```
+
+## 网关
+
+### 一、排他网关ExclusiveGateway
+
+排他网关只会选择一个为true的分支执行。
+如果有两个分支条件都为true，排他网关会选择id值较小的一条分支去执行。
+如果从网关出去的线所有条件都不满足则系统抛出异常。
+
+为什么要用排他网关？
+不用排他网关也可以实现分支，如：在连线的condition条件上设置分支条件。
+在连线设置condition条件的缺点：如果条件都不满足，流程就结束了(是异常结束)。
+
+### 二、并行网关ParallelGateway
+
+fork分支：进入分支网关会给每一条线都创建一个任务。
+
+join汇聚：所有人的任务完成，流程才会通过汇聚网关。
+
+注意，如果同一个并行网关有多个进入和多个外出顺序流， 它就同时具有分支和汇聚功能。 这时，网关会先汇聚所有进入的顺序流，然后再切分成多个并行分支。
+
+**与其他网关的主要区别是，并行网关不会解析条件。 即使顺序流中定义了条件，也会被忽略。**
+
+![img](..\img\1713934069825-ec8f547c-528c-4713-b924-a50bdb9992ae.webp)
+
+### 三、包含网关InclusiveGateway
+
+包含网关可以看做是排他网关和并行网关的结合体。
+
+和排他网关一样，你可以在外出顺序流上定义条件，包含网关会解析它们。 但是主要的区别是包含网关可以选择多于一条顺序流，这和并行网关一样。
+
+l 分支：
+
+所有外出顺序流的条件都会被解析，结果为true的顺序流会以并行方式继续执行， 会为每个顺序流创建一个分支。
+
+l 汇聚：
+
+包含网关只会等待满足分支条件的顺序流。 在汇聚之后，流程会穿过包含网关继续执行。
+
+### 四、事件网关EventGateway
+
+事件网关允许根据事件判断流向。网关的每个外出顺序流都要连接到一个中间捕获事件。 当流程到达一个基于事件网关，网关会进入等待状态：会暂停执行。与此同时，会为每个外出顺序流创建相对的事件订阅。
+
+事件网关的外出顺序流和普通顺序流不同，这些顺序流不会真的"执行"， 相反它们让流程引擎去决定执行到事件网关的流程需要订阅哪些事件。 要考虑以下条件：
+
+1. 事件网关必须有两条或以上外出顺序流；
+2. 事件网关后，只能使用intermediateCatchEvent类型（activiti不支持基于事件网关后连接ReceiveTask）
+3. 连接到事件网关的中间捕获事件必须只有一个入口顺序流。
