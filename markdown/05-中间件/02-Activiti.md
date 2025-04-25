@@ -4,9 +4,11 @@
 
 ## Activit如何使用
 
-1. 创建springboot项目
-   `activiti8.3` + `java21`
-2. 添加指定仓库
+### 1、创建springboot项目
+
+`activiti8.6` + `java21`
+
+### 2、添加指定仓库
 
 ```xml
 <!--可不加，activiti本身是一个庞大的系统，存在着众多依赖。虽然这一步不是必须的，但是强烈建议添加上。-->
@@ -15,7 +17,7 @@
       <dependency>
         <groupId>org.activiti</groupId>
         <artifactId>activiti-dependencies</artifactId>
-        <version>8.3.0</version>
+        <version>8.6.0</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
@@ -30,13 +32,13 @@
 </repositories>
 ```
 
-3. 添加activiti
+### 3、添加activiti
 
 ```xml
 <dependency>
     <groupId>org.activiti</groupId>
     <artifactId>activiti-spring-boot-starter</artifactId>
-    <version>8.3.0</version>
+    <version>8.6.0</version>
 </dependency>
 <dependency>
     <groupId>com.mysql</groupId>
@@ -45,7 +47,7 @@
 </dependency>
 ```
 
-完整pom
+### 完整pom
 
 ```xml
 <properties>
@@ -74,7 +76,7 @@
     <dependency>
         <groupId>org.activiti</groupId>
         <artifactId>activiti-spring-boot-starter</artifactId>
-        <version>8.3.0</version>
+        <version>8.6.0</version>
     </dependency>
 
     <dependency>
@@ -98,7 +100,7 @@
 </repositories>
 ```
 
-数据库配置
+### 数据库配置
 
 ```yml
 server:
@@ -112,10 +114,10 @@ spring:
     username: root
     password: Cirno760
   activiti:
-    database-schema-update: true
+    database-schema-update: true  # 开发时设置为true（自动创建表），生产时设置为false（检查数据库表的版本和依赖库的版本， 如果版本不匹配就抛出异常。）
     db-history-used: true
     history-level: full
-    check-process-definitions: true
+    check-process-definitions: true # 检查resources/processes文件夹是否修改
 
 ```
 
@@ -126,7 +128,7 @@ create-drop: 构建流程引擎时创建数据库表， 关闭流程引擎时删
 drop-create：先删除表再创建表。
 create: 构建流程引擎时创建数据库表， 关闭流程引擎时不删除这些表。
 
-4. 配置spring security
+### 4、配置spring security
 
 ```java
 package org.openoa.antflow_future.config;
@@ -155,11 +157,11 @@ public class AntFlowSecurityConfiguration {
         InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
         //这里添加用户，后面处理流程时用到的任务负责人，需要添加在这里
         String[][] usersGroupsAndRoles = {
-                {"jack", "password", "ROLE_ACTIVITI_USER", "GROUP_activitiTeam"},
-                {"rose", "password", "ROLE_ACTIVITI_USER", "GROUP_activitiTeam"},
-                {"tom", "password", "ROLE_ACTIVITI_USER", "GROUP_activitiTeam"},
-                {"other", "password", "ROLE_ACTIVITI_USER", "GROUP_otherTeam"},
-                {"system", "password", "ROLE_ACTIVITI_USER"},
+                {"itlils", "password", "ROLE_ACTIVITI_USER", "GROUP_activitiTeam"},
+                {"zhuzhu", "password", "ROLE_ACTIVITI_USER", "GROUP_activitiTeam"},
+                {"itnanls", "password", "ROLE_ACTIVITI_USER", "GROUP_activitiTeam"},
+                {"weiwei", "password", "ROLE_ACTIVITI_USER", "GROUP_otherTeam"},
+                {"guest", "password", "ROLE_ACTIVITI_USER"},
                 {"admin", "password", "ROLE_ACTIVITI_ADMIN"},
         };
  
@@ -179,7 +181,7 @@ public class AntFlowSecurityConfiguration {
 }
 ```
 
-5. 添加工具类
+### 5、添加工具类
 
 ```java
 package org.openoa.antflow_future.util;
@@ -250,8 +252,53 @@ public class SecurityUtil {
 }
 ```
 
-6. 启动项目
-   启动项目后会自动创建mysql表
+### 6、启动项目
+
+启动项目后会自动创建mysql表
+
+### 7、流程定义
+
+`resources/processes`目录下创建bpmn20.xml文件
+
+### 8、流程操作
+
+```java
+@Resource
+ProcessRuntime processRuntime;
+@Resource
+TaskRuntime taskRuntime;
+@Resource
+SecurityUtil securityUtil;
+
+public void testDeployment(){
+    securityUtil.logInAs("itlils");
+    Page<ProcessDefinition> processDefinitionPage = processRuntime.processDefinitions(Pageable.of(0, 20));
+    for (ProcessDefinition processDefinition : processDefinitionPage.getContent()) {
+        log.info("{}",processDefinition);
+    }
+}
+public void testStartProcess(){
+    securityUtil.logInAs("itlils");
+    ProcessInstance business = processRuntime.start(ProcessPayloadBuilder.start().withBusinessKey("business").build());
+    log.info("{}",business.getId());
+    log.info("{}",business);
+}
+public void testShowProcess(){
+    securityUtil.logInAs("zhuzhu");
+    Page<Task> tasks = taskRuntime.tasks(Pageable.of(0, 20));
+    for (Task task : tasks.getContent()) {
+        log.info("-------{}",task);
+    }
+}
+public void testClaimProcess(){
+    securityUtil.logInAs("zhuzhu");
+    taskRuntime.claim(TaskPayloadBuilder.claim().withTaskId("65cd09fe-21a2-11f0-a618-00ffc169a2a7").build());
+}
+public void testCompleteProcess() {
+    securityUtil.logInAs("zhuzhu");
+    taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId("65cd09fe-21a2-11f0-a618-00ffc169a2a7").build());
+}
+```
 
 ## 数据库表的命名规则
 
