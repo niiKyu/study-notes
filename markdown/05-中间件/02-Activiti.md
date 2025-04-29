@@ -121,7 +121,7 @@ spring:
 
 ```
 
-关于 *processEngineConfiguration* 中的 **databaseSchemaUpdate****参数，**通过此参数设计 activiti数据表的处理策略，参数如下：
+关于`processEngineConfiguration`中的`databaseSchemaUpdate`参数，通过此参数设计 activiti数据表的处理策略，参数如下：
 false（默认）：检查数据库表的版本和依赖库的版本， 如果版本不匹配就抛出异常。
 true: 构建流程引擎时，执行检查，如果需要就执行更新。 如果表不存在，就创建。
 create-drop: 构建流程引擎时创建数据库表， 关闭流程引擎时删除这些表。
@@ -302,7 +302,7 @@ public void testCompleteProcess() {
 
 ## 数据库表的命名规则
 
-**官网地址：**https://www.activiti.org/userguide/#creatingDatabaseTable
+官网地址：https://www.activiti.org/userguide/#creatingDatabaseTable
 
 ### a、表前缀说明
 

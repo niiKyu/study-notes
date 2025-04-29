@@ -94,6 +94,7 @@ export default defineConfig({
             items: [
               { text: 'RocketMQ', link: '/markdown/05-中间件/01-RocketMQ' },
               { text: 'Activiti', link: '/markdown/05-中间件/02-Activiti' },
+              { text: 'SpringCloud', link: '/markdown/05-中间件/03-SpringCloud' },
             ]
           },
           {
@@ -105,6 +106,7 @@ export default defineConfig({
               { text: '面试题', link: '/markdown/其他/面试题' },
               { text: '阿里规约', link: '/markdown/其他/阿里规约' },
               { text: 'vitepress', link: '/markdown/其他/vitepress' },
+              { text: '开发手册', link: '/markdown/其他/开发手册' },
             ]
           },
 
