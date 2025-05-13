@@ -95,6 +95,7 @@ export default defineConfig({
               { text: 'RocketMQ', link: '/markdown/05-中间件/01-RocketMQ' },
               { text: 'Activiti', link: '/markdown/05-中间件/02-Activiti' },
               { text: 'SpringCloud', link: '/markdown/05-中间件/03-SpringCloud' },
+              { text: 'SpringCloudAlibaba', link: '/markdown/05-中间件/04-SpringCloudAlibaba' },
             ]
           },
           {

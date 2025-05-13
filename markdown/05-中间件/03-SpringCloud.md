@@ -1,4 +1,4 @@
-# Spring Cloud
+# Spring Cloud Eureka
 
 红色不维护。绿色是alibaba一套，推荐使用。![img](..\img\1713934112945-497fc666-8878-4abb-a25f-0b7d2c7db68a.webp)
 
@@ -6,7 +6,7 @@
 
 ## 注册中心
 
-### Eureka（不常用）
+### Eureka
 
 父工程pom
 
@@ -891,6 +891,14 @@ public class UrlFilter implements GlobalFilter, Ordered {
 
 下面章节不重要，超大型公司才会用到
 
+| 组件          | 作用                                                         |
+| ------------- | ------------------------------------------------------------ |
+| config-server | 将微服务配置集中存在git仓库                                  |
+| actuator      | 配合配置中心重载单个微服务的配置                             |
+| Bus           | 使用RabbitMQ或kafuka+actuator批量重载微服务的配置            |
+| Stream        | 类似JDBC可以快速切换mysql和orecal，使用Stream可以切换RabbitMQ和kafuka（只支持这两） |
+| Sleuth+zipkin | 微服务的调用链路的可视化，前者链路收集、后者链路展现         |
+
 ## 分布式配置中心
 
 ![img](..\img\1713934120002-8571b138-ea85-49f1-8f83-9e928795729d.webp)
@@ -1082,4 +1090,8 @@ eureka:
       defaultZone: http://localhost:8761/eureka
 ```
 
-## SpringCloud Bus消息总线
+## Bus消息总线
+
+## Stream消息驱动
+
+## Sleuth分布式请求链路追踪
