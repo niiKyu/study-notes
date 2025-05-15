@@ -107,7 +107,8 @@ export default defineConfig({
               { text: '面试题', link: '/markdown/其他/面试题' },
               { text: '阿里规约', link: '/markdown/其他/阿里规约' },
               { text: 'vitepress', link: '/markdown/其他/vitepress' },
-              { text: '开发手册', link: '/markdown/其他/开发手册' },
+              { text: '开发手册1', link: '/markdown/其他/单体应用开发手册' },
+              { text: '开发手册2', link: '/markdown/其他/微服务开发手册' },
             ]
           },
 
