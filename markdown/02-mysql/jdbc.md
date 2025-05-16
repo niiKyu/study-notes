@@ -78,13 +78,13 @@ JDBC中定义了操作数据库的各种接口和类型，以下章节可能会�
 
 - mysql8.0后必需要加上`serverTimezone=UTC`"，指定当前服务器所处的时区。（也要看jdbc的版本）
 
-  ```url
+  ```txt
   serverTimezone=Asia/Shanghai
   ```
 
   我们也可以使用UTC（世界统一时间），但是这个时间和中国的时间差八小时（东八区），所以我们可以这样写：
 
-  ```url
+  ```txt
   serverTimezone=GMT%2B8（%2B相当于“+”号）
   ```
 

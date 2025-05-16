@@ -199,7 +199,7 @@ create table 表名 (
 
 非空约束指的是，如果我们要在这张表中添加数据，设定了非空约束的列必须赋值，不能为空：
 
-```mysql
+```sql
 create table `ydlclass`.`author`(
 	`aut_id` int ,
 	`aut_name` varchar(50) not null,     # 这就是非空约束
@@ -727,7 +727,7 @@ select * from student where age > (
 
 （2）查询有一门学科分数大于九十分的学生信息 (列子查询)
 
-```mysql
+```sql
 select * from student where id in(
 	select distinct s_id from scores where score > 90
 )
