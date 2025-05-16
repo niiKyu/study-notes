@@ -16,9 +16,9 @@ export default defineConfig({
       { text: '首页', link: '/' },
       { text: '笔记', link: '/markdown/01-JavaSE/1JavaSE' },
       {
-        text: '工具',
+        text: '项目',
         items: [
-          { text: 'docx工具', link: '/nav/word-tools.md' },
+          { text: 'docx模板工具', link: '/nav/word-tools.md' },
           // { text: '2', link: '/nav/wechat.md' },
           // { text: '3', link: '/nav/wechat.md' }
         ]
