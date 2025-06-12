@@ -74,14 +74,14 @@ export default defineConfig({
               { text: '设计模式', link: '/markdown/04-框架/03-设计模式' },
               { text: 'mybatis', link: '/markdown/04-框架/04-mybatis' },
               { text: 'Spring', link: '/markdown/04-框架/05-Spring' },
-              { text: 'Spring-mvc', link: '/markdown/04-框架/06-Spring-mvc' },
+              { text: 'SpringMVC', link: '/markdown/04-框架/06-SpringMVC' },
               { text: 'redis', link: '/markdown/04-框架/07-redis' },
               { text: 'redis进阶', link: '/markdown/04-框架/08-redis进阶' },
               { text: 'vue', link: '/markdown/04-框架/09-vue' },
               { text: 'nodejs', link: '/markdown/04-框架/10-nodejs' },
               { text: 'ssm小项目', link: '/markdown/04-框架/11-ssm小项目' },
               { text: 'mybatis-plus', link: '/markdown/04-框架/12-mybatis-plus' },
-              { text: 'springboot', link: '/markdown/04-框架/13-springboot' },
+              { text: 'springBoot', link: '/markdown/04-框架/13-SpringBoot' },
               { text: 'SpringDataJPA', link: '/markdown/04-框架/14-SpringDataJPA' },
               { text: 'SpringSecurity', link: '/markdown/04-框架/15-SpringSecurity' },
             ]
@@ -99,16 +99,22 @@ export default defineConfig({
             ]
           },
           {
+            text: '项目',
+            // 开启折叠按钮
+            collapsible: true,
+            collapsed: true,
+            items: [
+              { text: '若依', link: '/markdown/06-项目/01-若依' },
+            ]
+          },
+          {
             text: '其他',
             // 开启折叠按钮
             collapsible: true,
             collapsed: true,
             items: [
-              { text: '面试题', link: '/markdown/其他/面试题' },
               { text: '阿里规约', link: '/markdown/其他/阿里规约' },
-              { text: 'vitepress', link: '/markdown/其他/vitepress' },
-              { text: '开发手册1', link: '/markdown/其他/单体应用开发手册' },
-              { text: '开发手册2', link: '/markdown/其他/微服务开发手册' },
+              { text: 'vitepress', link: '/markdown/其他/vitepress' }
             ]
           },
 

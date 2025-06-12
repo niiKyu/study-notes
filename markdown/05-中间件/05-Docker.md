@@ -85,7 +85,7 @@ sudo systemctl restart docker
 因为需要部署`kibana`容器，因此需要让es和kibana容器互联。
 指令：
 
-```h
+```sh
 docker network create es-net
 ```
 
@@ -122,7 +122,7 @@ docker run -d \
 -v /usr/local/es/data:/usr/share/elasticsearch/data \
 -v /usr/local/es/plugins:/usr/share/elasticsearch/plugins \
 -e "discovery.type=single-node" \
--e "ES_JAVA_OPTS=-Xms128m -Xmx128m" \
+-e "ES_JAVA_OPTS=-Xms512m -Xmx512m" \
 elasticsearch:8.6.0
 ```
 
@@ -139,7 +139,7 @@ docker run -d \
 -v es-config://usr/share/elasticsearch/config \
 -v es-plugins:/usr/share/elasticsearch/plugins \
 -e "discovery.type=single-node" \
--e "ES_JAVA_OPTS=-Xms128m -Xmx128m" \
+-e "ES_JAVA_OPTS=-Xms512m -Xmx512m" \
 elasticsearch:8.6.0
 ```
 
@@ -201,6 +201,7 @@ mkdir -p /usr/local/kibana/config /usr/local/kibana/data
 
 ```sh
 docker run -d \
+--restart=always \
 --name kibana \
 -e ELASTICSEARCH_HOSTS=http://es:9200 \
 --network=es-net \
@@ -270,7 +271,7 @@ mkdir -p /usr/mysql/data
 ### 6.3 运行mysql容器
 
 ```sh
-docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -d -p 3306:3306 -v /usr/mysql/conf:/etc/mysql/conf.d -v /usr/mysql/data:/var/lib/mysql mysql:5.7
+docker run --restart=always --name mysql -e MYSQL_ROOT_PASSWORD=root -d -p 3306:3306 -v /usr/mysql/conf:/etc/mysql/conf.d -v /usr/mysql/data:/var/lib/mysql mysql:5.7
 ```
 
 ## 七、安装Nacos
@@ -318,7 +319,7 @@ docker run -d --name nacos \
 -p 9849:9849 \
 -e MODE=standalone \
 -e SPRING_DATASOURCE_PLATFORM=mysql \
--e MYSQL_SERVICE_HOST=192.168.169.133 \
+-e MYSQL_SERVICE_HOST=192.168.200.133 \
 -e MYSQL_SERVICE_PORT=3306 \
 -e MYSQL_SERVICE_USER=root \
 -e MYSQL_SERVICE_PASSWORD=root \
@@ -331,17 +332,13 @@ docker run -d --name nacos \
 -e JVM_XMN=256m \
 -e JVM_MS=128m \
 -e JVM_MMS=256m \
---restart=always nacos/nacos-server \
+--restart=always \
 nacos/nacos-server
 ```
 
 Derby启动
 
 `docker run -d --name nacos -p 8848:8848 -p 9848:9848 -p 9849:9849 --privileged=true -e JVM_XMS=8m -e JVM_XMX=8m -e MODE=standalone -v /usr/nacos/logs/:/home/nacos/logs -v /usr/nacos/conf/:/home/nacos/conf/ -v /usr/nacos/data/:/home/nacos/data/ --restart=always nacos/nacos-server`
-
-mysql启动
-
-`docker run -d -e JVM_XMS=128m -e JVM_XMX=128m -e JVM_XMN=128m -e MODE=standalone -e PREFER_HOST_MODE=hostname -e SPRING_DATASOURCE_PLATFORM=mysql -e MYSQL_SERVICE_HOST=192.168.169.133 -e MYSQL_SERVICE_PORT=3306 -e MYSQL_SERVICE_USER=root -e MYSQL_SERVICE_PASSWORD=root -e MYSQL_SERVICE_DB_NAME=nacos -e NACOS_AUTH_IDENTITY_KEY=Q2lybm83NjA= -e NACOS_AUTH_IDENTITY_VALUE=Q2lybm83NjA= -e NACOS_AUTH_TOKEN=ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lJeE1qTTBOVFkzT0Rrd0lpd2libUZ0WlNJNklrcHZhRzRnUkc5bElpd2lZV1J0YVc0aU9uUnlkV1VzSW1saGRDSTZNVFV4TmpJek9UQXlNbjAuS01VRnNJRFRuRm15RzNuTWlHTTZIOUZORlVST2Yzd2g3U21xSnAtUVYzMA== -p 8848:8848 -p 9848:9848 -p 9849:9849 --name nacos --restart=always nacos/nacos-server`
 
 注意事项
 虚拟机需要在防火墙开放相关端口，或者关了防火墙，如果你是云服务器，开放安全组
@@ -396,7 +393,9 @@ docker rm -f mn
 创建容器
 
 ```sh
-docker run --name nginx -d \
+docker run \
+--restart=always \
+--name nginx -d \
 -p 80:80 -p 81:81 \
 -v /opt/nginx/html:/usr/share/nginx/html \
 -v /opt/nginx/nginx.conf:/etc/nginx/nginx.conf:ro \
@@ -446,7 +445,7 @@ liunx 下redis.conf文件位置：/usr/redis/redis.conf
 liunx 下redis的data文件位置 ： /usr/redis/data
 
 创建容器
-`docker run -p 6379:6379 --name redis -v /usr/redis/redis.conf:/etc/redis/redis.conf -v /usr/redis/data:/data -d redis redis-server /etc/redis/redis.conf --appendonly yes`
+`docker run -p 6379:6379 --restart=always --name redis -v /usr/redis/redis.conf:/etc/redis/redis.conf -v /usr/redis/data:/data -d redis redis-server /etc/redis/redis.conf --appendonly yes`
 
 ### 检查日志
 
@@ -468,3 +467,46 @@ firewall-cmd --reload
 firewall-cmd --zone=public --list-ports # 查看开放的端口列表
 ```
 
+## 十、安装FastDFS
+
+```sh
+docker pull delron/fastdfs
+docker run -dti --network=host --name tracker -v /var/fdfs/tracker:/var/fdfs -v /etc/localtime:/etc/localtime delron/fastdfs tracker
+
+docker run -dti  --network=host --name storage -e TRACKER_SERVER=192.168.169.133:22122 -v /var/fdfs/storage:/var/fdfs  -v /etc/localtime:/etc/localtime  delron/fastdfs storage
+
+#################### 如果需要修改端口 ############################
+# 进入容器
+docker exec -it storage bash
+# 进入目录
+cd /etc/fdfs/
+# 编辑文件
+vi storage.conf # 修改http.server_port
+# nginx监听端口需要跟上面一致
+cd /usr/local/nginx/conf
+vi nginx.conf
+# 重启
+docker stop storage
+docker start storage
+#################### ################## ############################
+#################### 如果需要测试 ####################################
+# 进入容器
+docker exec -it storage bash
+cd /var/fdfs
+# 创建文件
+echo hello 这是我的第一个测试文件，大家觉得不错关注下吧>a.txt
+# 上传文件
+/usr/bin/fdfs_upload_file /etc/fdfs/client.conf a.txt
+# 访问 http://ip:8888/**.txt
+#################### ################## ############################
+
+firewall-cmd --zone=public --permanent --add-port=8888/tcp
+firewall-cmd --zone=public --permanent --add-port=22122/tcp
+firewall-cmd --zone=public --permanent --add-port=23000/tcp
+systemctl restart firewalld
+
+docker update --restart=always tracker
+docker update --restart=always storage
+```
+
+## 

@@ -839,7 +839,7 @@ public class IpFilter implements GlobalFilter, Ordered {
 
         if (hostAddress.equals("192.168.31.11")) {
             //拒绝
-            response.setStatusCode(HttpStatus.UNAUTHORIZED);
+            response.setStatusCode(HttpStatus.Forbidden);
             return response.setComplete();
         }
 

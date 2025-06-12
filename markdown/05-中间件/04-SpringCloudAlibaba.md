@@ -47,7 +47,7 @@ Github版本对应：[https://github.com/alibaba/spring-cloud-alibaba/wiki/版�
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-dependencies</artifactId>
-            <version>2023.0.5</version>
+            <version>2023.0.3</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
