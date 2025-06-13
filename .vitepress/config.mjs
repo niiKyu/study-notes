@@ -114,7 +114,8 @@ export default defineConfig({
             collapsed: true,
             items: [
               { text: '阿里规约', link: '/markdown/其他/阿里规约' },
-              { text: 'vitepress', link: '/markdown/其他/vitepress' }
+              { text: 'vitepress', link: '/markdown/其他/vitepress' },
+              { text: 'AI大模型', link: '/markdown/其他/AI大模型' }
             ]
           },
 
