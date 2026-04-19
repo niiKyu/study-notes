@@ -3,15 +3,6 @@ import DefaultTheme from "vitepress/theme";
 import { onMounted } from "vue";
 const { Layout } = DefaultTheme;
 
-// Live2D
-onMounted(() => {
-  const script = document.createElement("script");
-  script.src = "/lib/L2Dwidget.min.js";
-  script.onload = () => {
-    L2Dwidget.init({ model: { jsonPath: "/assets/asuna_04.model.json" } });
-  };
-  document.head.appendChild(script);
-});
 </script>
 
 <template>
