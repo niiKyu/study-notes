@@ -6,8 +6,8 @@
   },
   "devDependencies": {
     "busuanzi.pure.js": "^1.0.3",
-    "vitepress": "^1.6.3",
-    "vue": "^3.5.13"
+    "vitepress": "^2.0.0-alpha.17",
+    "vue": "^3.5.32"
   },
   "dependencies": {
     "axios": "^1.8.4",

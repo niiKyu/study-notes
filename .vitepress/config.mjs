@@ -14,11 +14,11 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '首页', link: '/' },
-      { text: '笔记', link: '/markdown/01-JavaSE/1JavaSE' },
+      { text: '笔记', link: '/markdown/01-JAVA/01-01-JavaSE' },
       {
-        text: '项目',
+        text: '娱乐工具',
         items: [
-          { text: 'docx模板工具', link: '/nav/word-tools.md' },
+          { text: '表情包制作', link: '/nav/word-tools.md' },
           // { text: '2', link: '/nav/wechat.md' },
           // { text: '3', link: '/nav/wechat.md' }
         ]
@@ -30,95 +30,99 @@ export default defineConfig({
         text: '学习笔记',
         items: [
           {
-            text: 'JavaSE',
+            text: 'JAVA',
             // 开启折叠按钮
             collapsible: true,
             collapsed: true,
             items: [
-              { text: 'JavaSE', link: '/markdown/01-JavaSE/1JavaSE' },
-              { text: 'java的异常机制', link: '/markdown/01-JavaSE/2java的异常机制' },
-              { text: '常用api', link: '/markdown/01-JavaSE/3常用api' },
-              { text: '泛型Generics和枚举Enum', link: '/markdown/01-JavaSE/4泛型Generics和枚举Enum' },
-              { text: 'JAVA多线程入门', link: '/markdown/01-JavaSE/5JAVA多线程入门（重点）' },
-              { text: '数据结构之——树', link: '/markdown/01-JavaSE/6数据结构之——树' },
-              { text: '集合', link: '/markdown/01-JavaSE/7集合' },
-              { text: 'IO流', link: '/markdown/01-JavaSE/8IO流' },
-              { text: '注解和反射', link: '/markdown/01-JavaSE/9注解和反射' },
-              { text: '网络编程', link: '/markdown/01-JavaSE/10网络编程' },
-              { text: 'nio', link: '/markdown/01-JavaSE/11nio' },
-              { text: '正则表达式', link: '/markdown/01-JavaSE/12正则表达式' },
-              { text: 'linux', link: '/markdown/01-JavaSE/13linux' },
-              { text: 'git', link: '/markdown/01-JavaSE/14git' },
+              { text: 'JavaSE', link: '/markdown/01-JAVA/01-01-JavaSE' },
+              { text: 'java的异常机制', link: '/markdown/01-JAVA/01-02-java的异常机制' },
+              { text: '常用api', link: '/markdown/01-JAVA/01-03-常用api' },
+              { text: '泛型Generics和枚举Enum', link: '/markdown/01-JAVA/01-04-泛型Generics和枚举Enum' },
+              { text: 'JAVA多线程入门', link: '/markdown/01-JAVA/01-05-JAVA多线程入门（重点）' },
+              { text: '数据结构之——树', link: '/markdown/01-JAVA/01-06-数据结构之——树' },
+              { text: '集合', link: '/markdown/01-JAVA/01-07-集合' },
+              { text: 'IO流', link: '/markdown/01-JAVA/01-08-IO流' },
+              { text: '注解和反射', link: '/markdown/01-JAVA/01-09-注解和反射' },
+              { text: '网络编程', link: '/markdown/01-JAVA/01-10-网络编程' },
+              { text: 'nio', link: '/markdown/01-JAVA/01-11-nio' },
+              { text: '正则表达式', link: '/markdown/01-JAVA/01-12-正则表达式' },
+              { text: 'linux', link: '/markdown/01-JAVA/01-13-linux' },
+              { text: 'git', link: '/markdown/01-JAVA/01-14-git' },
+              { text: 'mysql', link: '/markdown/01-JAVA/02-01-mysql' },
+              { text: 'mysql进阶', link: '/markdown/01-JAVA/02-02-mysql进阶' },
+              { text: 'jdbc', link: '/markdown/01-JAVA/02-03-jdbc' },
+              { text: 'javaweb', link: '/markdown/01-JAVA/03-01-javaweb' },
+              { text: 'maven', link: '/markdown/01-JAVA/04-01-maven' },
+              { text: '日志框架', link: '/markdown/01-JAVA/04-02-日志框架' },
+              { text: '设计模式', link: '/markdown/01-JAVA/04-03-设计模式' },
+              { text: 'mybatis', link: '/markdown/01-JAVA/04-04-mybatis' },
+              { text: 'Spring', link: '/markdown/01-JAVA/04-05-Spring' },
+              { text: 'SpringMVC', link: '/markdown/01-JAVA/04-06-SpringMVC' },
+              { text: 'redis', link: '/markdown/01-JAVA/04-07-redis' },
+              { text: 'redis进阶', link: '/markdown/01-JAVA/04-08-redis进阶' },
+              { text: 'vue', link: '/markdown/01-JAVA/04-09-vue' },
+              { text: 'nodejs', link: '/markdown/01-JAVA/04-10-nodejs' },
+              { text: 'ssm小项目', link: '/markdown/01-JAVA/04-11-ssm小项目' },
+              { text: 'mybatis-plus', link: '/markdown/01-JAVA/04-12-mybatis-plus' },
+              { text: 'springBoot', link: '/markdown/01-JAVA/04-13-springboot' },
+              { text: 'SpringDataJPA', link: '/markdown/01-JAVA/04-14-SpringDataJPA' },
+              { text: 'SpringSecurity', link: '/markdown/01-JAVA/04-15-SpringSecurity' },
+              { text: 'RocketMQ', link: '/markdown/01-JAVA/05-01-RocketMQ' },
+              { text: 'Activiti', link: '/markdown/01-JAVA/05-02-Activiti' },
+              { text: 'SpringCloud', link: '/markdown/01-JAVA/05-03-SpringCloud' },
+              { text: 'SpringCloudAlibaba', link: '/markdown/01-JAVA/05-04-SpringCloudAlibaba' },
+              { text: 'Docker', link: '/markdown/01-JAVA/05-05-Docker' },
+              { text: 'FastDFS', link: '/markdown/01-JAVA/05-06-FastDFS' },
+              { text: 'Nginx', link: '/markdown/01-JAVA/05-07-Nginx' },
+              { text: '若依', link: '/markdown/01-JAVA/06-01-若依' },
+              { text: '阿里规约', link: '/markdown/01-JAVA/07-01-阿里规约' },
+              { text: '开发手册', link: '/markdown/01-JAVA/07-02-开发手册' },
+              { text: 'AI大模型', link: '/markdown/01-JAVA/07-03-AI大模型' },
+              { text: '阿里云OSS', link: '/markdown/01-JAVA/07-04-阿里云OSS' },
+              { text: '单体应用开发手册', link: '/markdown/01-JAVA/07-05-单体应用开发手册' },
+              { text: '微服务开发手册', link: '/markdown/01-JAVA/07-06-微服务开发手册' },
+              { text: '面试题', link: '/markdown/01-JAVA/07-07-面试题' },
             ]
           },
           {
-            text: 'mysql',
+            text: 'Windows',
             // 开启折叠按钮
             collapsible: true,
             collapsed: true,
             items: [
-              { text: 'mysql', link: '/markdown/02-mysql/mysql' },
-              { text: 'mysql进阶', link: '/markdown/02-mysql/mysql进阶' },
-              { text: 'jdbc', link: '/markdown/02-mysql/jdbc' },
-            ]
-          },
-          { text: 'javaweb', link: '/markdown/03-javaweb/javaweb' },
-          {
-            text: '框架',
-            // 开启折叠按钮
-            collapsible: true,
-            collapsed: true,
-            items: [
-              { text: 'maven', link: '/markdown/04-框架/01-maven' },
-              { text: '日志框架', link: '/markdown/04-框架/02-日志框架' },
-              { text: '设计模式', link: '/markdown/04-框架/03-设计模式' },
-              { text: 'mybatis', link: '/markdown/04-框架/04-mybatis' },
-              { text: 'Spring', link: '/markdown/04-框架/05-Spring' },
-              { text: 'SpringMVC', link: '/markdown/04-框架/06-SpringMVC' },
-              { text: 'redis', link: '/markdown/04-框架/07-redis' },
-              { text: 'redis进阶', link: '/markdown/04-框架/08-redis进阶' },
-              { text: 'vue', link: '/markdown/04-框架/09-vue' },
-              { text: 'nodejs', link: '/markdown/04-框架/10-nodejs' },
-              { text: 'ssm小项目', link: '/markdown/04-框架/11-ssm小项目' },
-              { text: 'mybatis-plus', link: '/markdown/04-框架/12-mybatis-plus' },
-              { text: 'springBoot', link: '/markdown/04-框架/13-SpringBoot' },
-              { text: 'SpringDataJPA', link: '/markdown/04-框架/14-SpringDataJPA' },
-              { text: 'SpringSecurity', link: '/markdown/04-框架/15-SpringSecurity' },
+              { text: 'Windows安装', link: '/markdown/02-Windows/01-Windows安装' }
             ]
           },
           {
-            text: '中间件和微服务',
+            text: '博客',
             // 开启折叠按钮
             collapsible: true,
             collapsed: true,
             items: [
-              { text: 'RocketMQ', link: '/markdown/05-中间件/01-RocketMQ' },
-              { text: 'Activiti', link: '/markdown/05-中间件/02-Activiti' },
-              { text: 'SpringCloud', link: '/markdown/05-中间件/03-SpringCloud' },
-              { text: 'SpringCloudAlibaba', link: '/markdown/05-中间件/04-SpringCloudAlibaba' },
+              { text: 'vitepress', link: '/markdown/03-Blog/01-vitepress' },
+              { text: 'Vue加载live2dmoc3', link: '/markdown/03-Blog/02-Vue加载live2dmoc3' }
             ]
           },
           {
-            text: '项目',
+            text: '生活',
             // 开启折叠按钮
             collapsible: true,
             collapsed: true,
             items: [
-              { text: '若依', link: '/markdown/06-项目/01-若依' },
+              { text: '摄影', link: '/markdown/04-Life/01-摄影' },
             ]
           },
           {
-            text: '其他',
+            text: '阅读',
             // 开启折叠按钮
             collapsible: true,
             collapsed: true,
             items: [
-              { text: '阿里规约', link: '/markdown/其他/阿里规约' },
-              { text: 'vitepress', link: '/markdown/其他/vitepress' },
-              { text: 'AI大模型', link: '/markdown/其他/AI大模型' }
+              { text: '爱的五种语言', link: '/markdown/05-Reading/心理学/01-爱的五种语言' },
             ]
           },
-
+          
           // { text: 'Markdown Examples', link: '/markdown-examples' },
           // { text: 'Runtime API Examples', link: '/api-examples' }
         ]
@@ -170,7 +174,7 @@ export default defineConfig({
     },
     //编辑本页 //
     editLink: { 
-      pattern: 'https://github.com/niiKyu/markdown-notes', // 改成自己的仓库
+      pattern: 'https://github.com/niiKyu/study-notes', // 改成自己的仓库
       text: '在GitHub编辑本页'
     },
     lastUpdated: {

@@ -83,6 +83,7 @@ import {
   mergeModels,
   mergeProps,
   nextTick,
+  nodeOps,
   normalizeClass,
   normalizeProps,
   normalizeStyle,
@@ -101,6 +102,7 @@ import {
   onUpdated,
   onWatcherCleanup,
   openBlock,
+  patchProp,
   popScopeId,
   provide,
   proxyRefs,
@@ -168,8 +170,8 @@ import {
   withMemo,
   withModifiers,
   withScopeId
-} from "./chunk-GWYN3LB4.js";
-import "./chunk-G3PMV62Z.js";
+} from "./chunk-CIQQ7TXU.js";
+import "./chunk-BUSYA2B4.js";
 export {
   BaseTransition,
   BaseTransitionPropsValidators,
@@ -255,6 +257,7 @@ export {
   mergeModels,
   mergeProps,
   nextTick,
+  nodeOps,
   normalizeClass,
   normalizeProps,
   normalizeStyle,
@@ -273,6 +276,7 @@ export {
   onUpdated,
   onWatcherCleanup,
   openBlock,
+  patchProp,
   popScopeId,
   provide,
   proxyRefs,
@@ -341,4 +345,3 @@ export {
   withModifiers,
   withScopeId
 };
-//# sourceMappingURL=vue.js.map
