@@ -30,7 +30,7 @@ export default defineConfig({
         text: '学习笔记',
         items: [
           {
-            text: 'JAVA',
+            text: 'JAVA开发',
             // 开启折叠按钮
             collapsible: true,
             collapsed: true,
@@ -86,7 +86,7 @@ export default defineConfig({
             ]
           },
           {
-            text: 'Windows',
+            text: 'Windows系统',
             // 开启折叠按钮
             collapsible: true,
             collapsed: true,
@@ -105,24 +105,35 @@ export default defineConfig({
             ]
           },
           {
-            text: '生活',
+            text: '个人成长',
             // 开启折叠按钮
             collapsible: true,
             collapsed: true,
             items: [
-              { text: '摄影', link: '/markdown/04-Life/01-摄影' },
+              {
+                text: '技能',
+                // 开启折叠按钮
+                collapsible: true,
+                collapsed: true,
+                items: [
+                  { text: '摄影', link: '/markdown/04-Life/01-摄影' },
+                ]
+              }, {
+                text: '心智',
+                // 开启折叠按钮
+                collapsible: true,
+                collapsed: true,
+                items: [
+                  { text: '爱的五种语言', link: '/markdown/05-Reading/01-爱的五种语言' },
+                  { text: '斯坦福高效睡眠法', link: '/markdown/05-Reading/02-斯坦福高效睡眠法' },
+                  { text: '和鱼对话聊天教学', link: '/markdown/05-Reading/03-和鱼对话聊天教学' },
+                  { text: '人间清醒恋爱指南', link: '/markdown/05-Reading/04-人间清醒恋爱指南' },
+                ]
+              },
             ]
           },
-          {
-            text: '阅读',
-            // 开启折叠按钮
-            collapsible: true,
-            collapsed: true,
-            items: [
-              { text: '爱的五种语言', link: '/markdown/05-Reading/心理学/01-爱的五种语言' },
-            ]
-          },
-          
+
+
           // { text: 'Markdown Examples', link: '/markdown-examples' },
           // { text: 'Runtime API Examples', link: '/api-examples' }
         ]
@@ -166,14 +177,14 @@ export default defineConfig({
       }
     },
     sidebarMenuLabel: '目录',
-    returnToTopLabel:'返回顶部', 
-    outline: { 
-      level: [2,4], // 显示2-4级标题
+    returnToTopLabel: '返回顶部',
+    outline: {
+      level: [2, 4], // 显示2-4级标题
       // level: 'deep', // 显示2-6级标题
       label: '当前页大纲' // 文字显示
     },
     //编辑本页 //
-    editLink: { 
+    editLink: {
       pattern: 'https://github.com/niiKyu/study-notes', // 改成自己的仓库
       text: '在GitHub编辑本页'
     },
@@ -185,10 +196,10 @@ export default defineConfig({
       },
     },
     //自定义上下页名 //
-    docFooter: { 
-      prev: '上一页', 
-      next: '下一页', 
-    }, 
+    docFooter: {
+      prev: '上一页',
+      next: '下一页',
+    },
   },
   lastUpdated: true, //首次配置不会立即生效，需git提交后爬取时间戳 //
   markdown: {
@@ -199,11 +210,11 @@ export default defineConfig({
     // 组件插入h1标题下
     config: (md) => {
       md.renderer.rules.heading_close = (tokens, idx, options, env, slf) => {
-          let htmlResult = slf.renderToken(tokens, idx, options);
-          if (tokens[idx].tag === 'h1') htmlResult += `<ArticleMetadata />`; 
-          return htmlResult;
+        let htmlResult = slf.renderToken(tokens, idx, options);
+        if (tokens[idx].tag === 'h1') htmlResult += `<ArticleMetadata />`;
+        return htmlResult;
       }
     }
   },
-  
+
 })
